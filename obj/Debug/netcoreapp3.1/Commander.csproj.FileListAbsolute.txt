@@ -64,3 +64,4 @@
 /Users/ismailcanvardar/Desktop/kariyer_app_backend/Commander/bin/Debug/netcoreapp3.1/Microsoft.AspNetCore.Mvc.NewtonsoftJson.dll
 /Users/ismailcanvardar/Desktop/kariyer_app_backend/Commander/bin/Debug/netcoreapp3.1/Newtonsoft.Json.Bson.dll
 /Users/ismailcanvardar/Desktop/kariyer_app_backend/Commander/bin/Debug/netcoreapp3.1/Microsoft.AspNetCore.Authentication.JwtBearer.dll
+/Users/ismailcanvardar/Desktop/kariyer_app_backend/Commander/bin/Debug/netcoreapp3.1/BCrypt.Net-Next.dll

@@ -15,14 +15,14 @@ namespace Commander.Data
             _context = context;
         }
 
-        public User GetUserByUsername(string username)
+        public User GetUser(string externalId)
         {
-            return _context.Users.FirstOrDefault(p => p.Username == username);
+            throw new NotImplementedException();
         }
 
         public User LoginUser(string email, string password)
         {
-            var user = _context.Users.SingleOrDefault(x => x.Email == email && x.Password == password);
+            var user = _context.Users.FirstOrDefault(p => p.Email == email);
 
             if (user != null)
             {
@@ -39,7 +39,7 @@ namespace Commander.Data
                 throw new ArgumentNullException(nameof(user));
             }
 
-            var isUserExists = _context.Users.FirstOrDefault(p => p.Username == user.Username);
+            var isUserExists = _context.Users.FirstOrDefault(p => p.Email == user.Email);
 
             if (isUserExists != null)
             {
@@ -57,11 +57,9 @@ namespace Commander.Data
             return (_context.SaveChanges() >= 0);
         }
 
-        public IEnumerable<User> SearchUsersByUsername(string username, int offset)
+        public IEnumerable<User> SearchUser(string searchCriteria, int offset)
         {
-            var foundUserList = _context.Users.FromSqlRaw($"select * from users where Username like '{username}%' order by Username offset {offset} rows fetch next 5 rows only").ToList();
-
-            return foundUserList;
+            throw new NotImplementedException();
         }
 
         public void UserUpdate(User user)

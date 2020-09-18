@@ -14,7 +14,7 @@
         "outputPath": "/Users/ismailcanvardar/Desktop/kariyer_app_backend/Commander/obj/",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "/Users/ismailcanvardar/.config/NuGet/NuGet.Config"
+          "/Users/ismailcanvardar/.nuget/NuGet/NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "netcoreapp3.1"
@@ -39,6 +39,10 @@
             "AutoMapper.Extensions.Microsoft.DependencyInjection": {
               "target": "Package",
               "version": "[8.0.1, )"
+            },
+            "BCrypt.Net-Next": {
+              "target": "Package",
+              "version": "[4.0.0, )"
             },
             "Microsoft.AspNetCore.Authentication.JwtBearer": {
               "target": "Package",

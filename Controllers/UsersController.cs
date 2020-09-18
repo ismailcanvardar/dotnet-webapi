@@ -33,7 +33,9 @@ namespace Commander.Controllers
         {
             User user = _repository.LoginUser(email, password);
 
-            if (user == null)
+            // Controls if there is a user with the given email or hashed password is true
+            // against given password from parameters
+            if (user == null || !BCrypt.Net.BCrypt.Verify(password, user.Password))
             {
                 return Problem(detail: "Username or password incorrect", statusCode: 500, title: "Wrong Credentials");
             }
@@ -45,11 +47,10 @@ namespace Commander.Controllers
             return Ok(userLoginDto);
         }
 
-        [Authorize]
         [HttpGet("findUser/{username}")]
-        public ActionResult GetUserByUsername(string username)
+        public ActionResult GetUser(string externalId)
         {
-            var foundUser = _repository.GetUserByUsername(username);
+            var foundUser = _repository.GetUser(externalId);
 
             if (foundUser == null)
             {
@@ -59,11 +60,10 @@ namespace Commander.Controllers
             return Ok(foundUser);
         }
 
-        [AllowAnonymous]
         [HttpGet("findUsers/{username}/{offset}")]
-        public ActionResult<IEnumerable<UserReadDto>> SearchUsersByUsername(string username, int offset)
+        public ActionResult<IEnumerable<UserReadDto>> SearchUser(string searchCriteria, int offset)
         {
-            var foundUsers = _repository.SearchUsersByUsername(username, offset);
+            var foundUsers = _repository.SearchUser(searchCriteria, offset);
 
             return Ok(_mapper.Map<IEnumerable<UserReadDto>>(foundUsers));
         }
@@ -72,6 +72,9 @@ namespace Commander.Controllers
         public ActionResult RegisterUser([FromBody] UserCreateDto userCreteDto)
         {
             var userModel = _mapper.Map<User>(userCreteDto);
+
+            userModel.Password = BCrypt.Net.BCrypt.HashPassword(userModel.Password);
+
             _repository.RegisterUser(userModel);
             _repository.SaveChanges();
 

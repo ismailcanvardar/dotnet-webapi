@@ -1,8 +1,9 @@
+﻿using System;
 using System.ComponentModel.DataAnnotations;
 
 namespace Commander.Models
 {
-    public class User
+    public class Employer
     {
         [Key]
         public int Id { get; set; }
