@@ -4,8 +4,6 @@ namespace Commander.Models
 {
     public class UserLoginDto
     {
-        public string Username { get; set; }
-
         public string Name { get; set; }
 
         public string Surname { get; set; }

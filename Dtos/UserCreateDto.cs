@@ -5,9 +5,6 @@ namespace Commander.Models
     public class UserCreateDto
     {
         [Required]
-        public string Username { get; set; }
-
-        [Required]
         public string Name { get; set; }
 
         [Required]
@@ -21,5 +18,8 @@ namespace Commander.Models
 
         [Required]
         public string Password { get; set; }
+
+        [Required]
+        public string Address { get; set; }
     }
 }

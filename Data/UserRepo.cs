@@ -17,10 +17,10 @@ namespace Commander.Data
 
         public User GetUser(string externalId)
         {
-            throw new NotImplementedException();
+            return _context.Users.FirstOrDefault(p => p.ExternalId == externalId);
         }
 
-        public User LoginUser(string email, string password)
+        public User GetUserByEmail(string email)
         {
             var user = _context.Users.FirstOrDefault(p => p.Email == email);
 
@@ -57,9 +57,9 @@ namespace Commander.Data
             return (_context.SaveChanges() >= 0);
         }
 
-        public IEnumerable<User> SearchUser(string searchCriteria, int offset)
+        public IEnumerable<User> SearchUser(string searchCriteria, int offset, int limit)
         {
-            throw new NotImplementedException();
+            return _context.Users.Where(user => user.Name.Contains(searchCriteria)).Take(limit).Skip(offset).ToList();
         }
 
         public void UserUpdate(User user)

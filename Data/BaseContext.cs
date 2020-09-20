@@ -15,5 +15,11 @@ namespace Commander.Data
         public DbSet<User> Users { get; set; }
 
         public DbSet<Employer> Employers { get; set; }
+
+        public DbSet<JobPost> JobPosts { get; set; }
+
+        public DbSet<Attendance> Attendances { get; set; }
+
+        public DbSet<Rating> Ratings { get; set; }
     }
 }

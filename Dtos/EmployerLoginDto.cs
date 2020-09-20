@@ -1,8 +1,8 @@
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace Commander.Models
 {
-    public class UserReadDto
+    public class EmployerLoginDto
     {
         public string Name { get; set; }
 
@@ -14,8 +14,6 @@ namespace Commander.Models
 
         public string ProfilePhoto { get; set; }
 
-        public string Address { get; set; }
-
-        public int RatingCount { get; set; }
+        public string Token { get; set; }
     }
 }

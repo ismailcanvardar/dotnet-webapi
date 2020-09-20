@@ -1,3 +1,5 @@
+using System;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 
 namespace Commander.Models
@@ -28,6 +30,12 @@ namespace Commander.Models
         [Required]
         public string Address { get; set; }
 
+        [DefaultValue(null)]
         public string ProfilePhoto { get; set; }
+
+        [DefaultValue(0)]
+        public int RatingCount { get; set; }
+
+        public DateTime CreatedAt { get; set; } = DateTime.Now;
     }
 }

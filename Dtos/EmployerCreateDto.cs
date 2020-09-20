@@ -1,17 +1,9 @@
-﻿using System;
-using System.ComponentModel;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace Commander.Models
 {
-    public class Employer
+    public class EmployerCreateDto
     {
-        [Key]
-        public int Id { get; set; }
-
-        [Required]
-        public string ExternalId { get; set; }
-
         [Required]
         public string Name { get; set; }
 
@@ -29,10 +21,5 @@ namespace Commander.Models
 
         [Required]
         public string Address { get; set; }
-
-        [DefaultValue(null)]
-        public string ProfilePhoto { get; set; }
-
-        public DateTime CreatedAt { get; set; } = DateTime.Now;
     }
 }

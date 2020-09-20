@@ -1,13 +1,7 @@
 ﻿<Properties GitUserInfo="UsingGIT" StartupConfiguration="{1F6689A1-9C5F-4044-8B85-B79CAF5B6DF2}|Default">
   <MonoDevelop.Ide.Workbench>
     <Files>
-      <File FileName="Controllers/UsersController.cs" Line="54" Column="1" />
-      <File FileName="Data/UserRepo.cs" Line="41" Column="1" />
-      <File FileName="Profiles/UsersProfile.cs" Line="9" Column="30" />
-      <File FileName="Models/User.cs" Line="24" Column="1" />
-      <File FileName="Models/Employer.cs" Line="20" Column="19" />
-      <File FileName="Data/IUserRepo.cs" Line="12" Column="55" />
-      <File FileName="Data/BaseContext.cs" Line="1" Column="1" />
+      <File FileName="Data/EmployerRepo.cs" Line="57" Column="1" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
@@ -15,10 +9,10 @@
           <Node name="Commander" expanded="True">
             <Node name="Commander" expanded="True">
               <Node name="Controllers" expanded="True" />
-              <Node name="Data" expanded="True">
-                <Node name="IUserRepo.cs" selected="True" />
+              <Node name="Data" expanded="True" />
+              <Node name="Dtos" expanded="True">
+                <Node name="UserLoginDto.cs" selected="True" />
               </Node>
-              <Node name="Dtos" expanded="True" />
               <Node name="Migrations" expanded="True" />
               <Node name="Models" expanded="True" />
               <Node name="Profiles" expanded="True" />
@@ -31,7 +25,7 @@
     </Pads>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Release" />
   <MonoDevelop.Ide.ItemProperties.Commander PreferredExecutionTarget="/Applications/Microsoft Edge.app" />
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore />

@@ -6,10 +6,10 @@ namespace Commander.Data
     public interface IUserRepo
     {
         bool SaveChanges();
-        IEnumerable<User> SearchUser(string searchCriteria, int offset);
+        IEnumerable<User> SearchUser(string searchCriteria, int offset, int limit);
         User GetUser(string externalId);
         void RegisterUser(User user);
-        User LoginUser(string email, string password);
+        User GetUserByEmail(string email);
         void UserUpdate(User user);
     }
 }

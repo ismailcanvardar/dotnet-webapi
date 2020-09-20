@@ -31,7 +31,7 @@ namespace Commander.Controllers
         [HttpGet("login/{email}/{password}")]
         public ActionResult<UserLoginDto> LoginUser(string email, string password)
         {
-            User user = _repository.LoginUser(email, password);
+            User user = _repository.GetUserByEmail(email);
 
             // Controls if there is a user with the given email or hashed password is true
             // against given password from parameters
@@ -42,12 +42,12 @@ namespace Commander.Controllers
 
             var userLoginDto = _mapper.Map<UserLoginDto>(user);
 
-            userLoginDto.Token = GenerateJSONWebToken(email, password);
+            userLoginDto.Token = GenerateJSONWebTokenForUser(user);
 
             return Ok(userLoginDto);
         }
 
-        [HttpGet("findUser/{username}")]
+        [HttpGet("findUser/{externalId}")]
         public ActionResult GetUser(string externalId)
         {
             var foundUser = _repository.GetUser(externalId);
@@ -60,18 +60,18 @@ namespace Commander.Controllers
             return Ok(foundUser);
         }
 
-        [HttpGet("findUsers/{username}/{offset}")]
-        public ActionResult<IEnumerable<UserReadDto>> SearchUser(string searchCriteria, int offset)
+        [HttpGet("findUsers/{searchCriteria}/{offset}/{limit}")]
+        public ActionResult<IEnumerable<UserReadDto>> SearchUser(string searchCriteria, int offset, int limit)
         {
-            var foundUsers = _repository.SearchUser(searchCriteria, offset);
+            var foundUsers = _repository.SearchUser(searchCriteria, offset, limit);
 
             return Ok(_mapper.Map<IEnumerable<UserReadDto>>(foundUsers));
         }
 
         [HttpPost]
-        public ActionResult RegisterUser([FromBody] UserCreateDto userCreteDto)
+        public ActionResult RegisterUser([FromBody] UserCreateDto userCreateDto)
         {
-            var userModel = _mapper.Map<User>(userCreteDto);
+            var userModel = _mapper.Map<User>(userCreateDto);
 
             userModel.Password = BCrypt.Net.BCrypt.HashPassword(userModel.Password);
 
@@ -83,7 +83,7 @@ namespace Commander.Controllers
             return Ok(userReadDto);
         }
 
-        private string GenerateJSONWebToken(string email, string password)
+        private string GenerateJSONWebTokenForUser(User user)
         {
             var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["Jwt:Key"]));
             var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
@@ -91,7 +91,7 @@ namespace Commander.Controllers
             var claims = new[]
             {
                 new Claim(JwtRegisteredClaimNames.Sub, "12"),
-                new Claim(JwtRegisteredClaimNames.Email, email)
+                new Claim(JwtRegisteredClaimNames.Email, user.Email)
             };
 
             var token = new JwtSecurityToken(_config["Jwt:Issuer"],

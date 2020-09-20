@@ -58,6 +58,7 @@ namespace Commander
 
             services.AddScoped<ICommanderRepo, SqlCommanderRepo>();
             services.AddScoped<IUserRepo, UserRepo>();
+            services.AddScoped<IEmployerRepo, EmployerRepo>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
