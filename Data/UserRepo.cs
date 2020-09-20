@@ -59,7 +59,7 @@ namespace Commander.Data
 
         public IEnumerable<User> SearchUser(string searchCriteria, int offset, int limit)
         {
-            return _context.Users.Where(user => user.Name.Contains(searchCriteria)).Take(limit).Skip(offset).ToList();
+            return _context.Users.Where(user => user.Name.Contains(searchCriteria) || user.Surname.Contains(searchCriteria)).Take(limit).Skip(offset).ToList();
         }
 
         public void UserUpdate(User user)
