@@ -106,26 +106,86 @@ namespace Commander.Controllers
         }
 
         [Authorize]
-        [HttpPost("apply")]
-        public ActionResult<Application> ApplyToAdvert([FromBody] ApplicationCreateDto applicationCreateDto)
+        [HttpPost("apply/{advertExternalId}")]
+        public ActionResult<Application> ApplyToAdvert(string advertExternalId)
         {
             if (IsUser())
             {
-                if (_repository.IsEmployeeApplied(GetCurrentUserExternalId(), applicationCreateDto.AdvertId) == true)
+                var appliedAdvert = _repository.GetAdvert(advertExternalId);
+                if (_repository.IsEmployeeApplied(GetCurrentUserExternalId(), appliedAdvert.ExternalId) == true)
                 {
                     return Problem("Already applied.");
                 } else
                 {
-                    var applicationModel = _mapper.Map<Application>(applicationCreateDto);
-                    applicationModel.EmployeeId = GetCurrentUserExternalId();
-                    _repository.ApplyToAdvert(applicationModel);
+                    var application = new Application { AdvertId = appliedAdvert.ExternalId, EmployerId = appliedAdvert.EmployerId, EmployeeId = GetCurrentUserExternalId() };
+                    _repository.ApplyToAdvert(application);
                     _repository.SaveChanges();
 
-                    return Ok(applicationModel);
+                    _repository.ManageApplicantCount(application.AdvertId, ApplicantCountOperation.Increment);
+
+                    return Ok(application);
                 }
             }
 
             return Problem(title: "Unable to apply.", detail: "Only users can apply.");
+        }
+
+        [Authorize]
+        [HttpPost("pickEmployee")]
+        public ActionResult<PickedEmployee> PickEmployee([FromBody] PickedEmployeeCreateDto pickedEmployeeCreateDto)
+        {
+            if (IsEmployer())
+            {
+                var advert = _repository.GetAdvert(pickedEmployeeCreateDto.AdvertExternalId);
+
+                if (advert.EmployerId == GetCurrentUserExternalId())
+                {
+                    var foundPickedEmployee = _repository.GetPickedEmployeeByAdvertAndEmployee(pickedEmployeeCreateDto.AdvertExternalId, pickedEmployeeCreateDto.EmployeeExternalId);
+
+                    if (foundPickedEmployee == null)
+                    {
+                        var pickedEmployeeModel = _mapper.Map<PickedEmployee>(pickedEmployeeCreateDto);
+                        pickedEmployeeModel.EmployerExternalId = GetCurrentUserExternalId();
+                        _repository.PickEmployee(pickedEmployeeModel);
+                        _repository.SaveChanges();
+                        return Ok(pickedEmployeeModel);
+                    }
+
+                    return Problem(title: "Already picked.", detail: "This employee already picked.");
+                }
+
+                return Problem(title: "Unable to pick.", detail: "Only advert owner can pick employee");
+            }
+
+            return Problem(title: "Unable to pick.", detail: "Only employers can pick.");
+        }
+
+        [Authorize]
+        [HttpDelete("unpickEmployee")]
+        public ActionResult UnpickEmployee([FromBody] PickedEmployeeRemoveDto pickedEmployeeRemoveDto)
+        {
+            if (IsEmployer())
+            {
+                var advert = _repository.GetAdvert(pickedEmployeeRemoveDto.AdvertExternalId);
+
+                if (advert.EmployerId == GetCurrentUserExternalId())
+                {
+                    var pickedEmployee = _repository.GetPickedEmployeeByAdvertAndEmployee(pickedEmployeeRemoveDto.AdvertExternalId, pickedEmployeeRemoveDto.EmployeeExternalId);
+
+                    if (pickedEmployee != null)
+                    {
+                        _repository.UnpickEmployee(pickedEmployee);
+                        _repository.SaveChanges();
+                        return Ok();
+                    }
+
+                    return Problem(title: "Unable to pick.", detail: "Already unpicked.");
+                }
+
+                return Problem(title: "Unable to pick.", detail: "Only employers can unpick.");
+            }
+
+            return Problem(title: "Unable to pick.", detail: "Only employers can unpick.");
         }
 
         [Authorize]
@@ -134,10 +194,12 @@ namespace Commander.Controllers
         {
             if (IsUser())
             {
-                var isCanceled = _repository.CancelApplication(externalId, GetCurrentUserExternalId());
-                if (isCanceled == true)
+                var canceledApplication = _repository.CancelApplication(externalId, GetCurrentUserExternalId());
+                if (canceledApplication != null)
                 {
                     _repository.SaveChanges();
+                    _repository.ManageApplicantCount(canceledApplication.AdvertId, ApplicantCountOperation.Decrement);
+
                     return Ok();
                 }
 
@@ -145,6 +207,45 @@ namespace Commander.Controllers
             }
 
             return Problem(title: "Unable to apply.", detail: "Only users can cancel.");
+        }
+
+        [Authorize]
+        [HttpGet("myAdverts")]
+        public ActionResult<IEnumerable<Advert>> GetMyAdverts()
+        {
+            if (IsEmployer())
+            {
+                var adverts = _repository.GetMyAdverts(GetCurrentUserExternalId());
+                return Ok(adverts);
+            }
+
+            return Problem(title: "Unable to fetch.", detail: "Only employers can get their adverts.");
+        }
+
+        [Authorize]
+        [HttpGet("myApplications")]
+        public ActionResult<IEnumerable<Application>> GetMyApplications()
+        {
+            if (IsUser())
+            {
+                var applications = _repository.GetMyApplications(GetCurrentUserExternalId());
+                return Ok(applications);
+            }
+
+            return Problem(title: "Unable to fetch.", detail: "Only users can get their applications.");
+        }
+
+        [Authorize]
+        [HttpGet("getApplicationsByAdvert/{advertExternalId}")]
+        public ActionResult<IEnumerable<Application>> GetApplicationsByAdvert(string advertExternalId)
+        {
+            if (IsEmployer())
+            {
+                var applications = _repository.GetApplicationsByAdvert(advertExternalId);
+                return Ok(applications);
+            }
+
+            return Problem(title: "Unable to fetch.", detail: "Only employers can get applications for their adverts.");
         }
 
         public bool IsEmployer()

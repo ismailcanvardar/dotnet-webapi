@@ -21,5 +21,7 @@ namespace Commander.Data
         public DbSet<Application> Applications { get; set; }
 
         public DbSet<Rating> Ratings { get; set; }
+
+        public DbSet<PickedEmployee> PickedEmployees { get; set; }
     }
 }

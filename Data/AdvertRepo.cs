@@ -23,17 +23,17 @@ namespace Commander.Data
             return true;
         }
 
-        public bool CancelApplication(string externalId, string employeeId)
+        public Application CancelApplication(string externalId, string employeeId)
         {
             var application = _context.Applications.FirstOrDefault(a => a.ExternalId == externalId && a.EmployeeId == employeeId);
 
             if (application == null)
             {
-                return false;
+                return null;
             }
 
             _context.Applications.Remove(application);
-            return true;
+            return application;
         }
 
         public bool CreateAdvert(Advert advert)
@@ -49,6 +49,24 @@ namespace Commander.Data
             return foundAdvert;
         }
 
+        public IEnumerable<Application> GetMyApplications(string employeeExternalId)
+        {
+            var applications = _context.Applications.Where(app => app.EmployeeId.Equals(employeeExternalId)).OrderByDescending(app => app.CreatedAt).ToList();
+            return applications;
+        }
+
+        public IEnumerable<Advert> GetMyAdverts(string employerExternalId)
+        {
+            var adverts = _context.Adverts.Where(ad => ad.EmployerId.Equals(employerExternalId)).OrderByDescending(ad => ad.CreatedAt).ToList();
+            return adverts;
+        }
+
+        public PickedEmployee GetPickedEmployee(string pickedEmployeeExternalId)
+        {
+            PickedEmployee pickedEmployee = _context.PickedEmployees.FirstOrDefault(pe => pe.ExternalId == pickedEmployeeExternalId);
+            return pickedEmployee;
+        }
+
         public bool IsEmployeeApplied(string employeeId, string advertId)
         {
             // Check if user applied earlier
@@ -59,6 +77,27 @@ namespace Commander.Data
             }
 
             return false;
+        }
+
+        public void ManageApplicantCount(string advertExternalId, ApplicantCountOperation applicantCountOperation)
+        {
+            var advert = _context.Adverts.FirstOrDefault(a => a.ExternalId == advertExternalId);
+
+            if (applicantCountOperation == ApplicantCountOperation.Increment)
+            {
+                advert.TotalApplicantCount += 1;
+            } else if (applicantCountOperation == ApplicantCountOperation.Decrement)
+            {
+                advert.TotalApplicantCount -= 1;
+            }
+
+            SaveChanges();
+        }
+
+        public void PickEmployee(PickedEmployee pickedEmployee)
+        {
+            pickedEmployee.ExternalId = Guid.NewGuid().ToString();
+            _context.PickedEmployees.Add(pickedEmployee);
         }
 
         public bool RemoveAdvert(string externalId)
@@ -93,9 +132,26 @@ namespace Commander.Data
             }
         }
 
+        public void UnpickEmployee(PickedEmployee pickedEmployee)
+        {
+            _context.PickedEmployees.Remove(pickedEmployee);
+        }
+
         public void UpdateAdvert()
         {
             throw new NotImplementedException();
+        }
+
+        public IEnumerable<Application> GetApplicationsByAdvert(string advertExternalId)
+        {
+            var applications = _context.Applications.Where(app => app.AdvertId == advertExternalId).ToList();
+            return applications;
+        }
+
+        public PickedEmployee GetPickedEmployeeByAdvertAndEmployee(string advertExternalId, string employeeExternalId)
+        {
+            var pickedEmployee = _context.PickedEmployees.FirstOrDefault(pe => pe.AdvertExternalId.Equals(advertExternalId) && pe.EmployeeExternalId.Equals(employeeExternalId));
+            return pickedEmployee;
         }
     }
 }
