@@ -89,8 +89,8 @@ namespace Commander.Controllers
 
             var claims = new[]
             {
-                new Claim(JwtRegisteredClaimNames.Sub, "12"),
-                new Claim(JwtRegisteredClaimNames.Email, employer.Email)
+                new Claim("Role", "Employer"),
+                new Claim("ExternalId", employer.ExternalId)
             };
 
             var token = new JwtSecurityToken(_config["Jwt:Issuer"],

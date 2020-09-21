@@ -18,20 +18,14 @@ namespace Commander.Data
 
         public bool ApplyToAdvert(Application attendance)
         {
-            var isApplied = _context.Applications.FirstOrDefault(a => a.EmployeeId == attendance.EmployeeId && a.EmployerId == attendance.EmployerId);
-
-            if (isApplied != null)
-            {
-                return false;
-            }
-
+            attendance.ExternalId = Guid.NewGuid().ToString();
             _context.Applications.Add(attendance);
             return true;
         }
 
-        public bool CancelApplication(string externalId)
+        public bool CancelApplication(string externalId, string employeeId)
         {
-            var application = _context.Applications.FirstOrDefault(a => a.ExternalId == externalId);
+            var application = _context.Applications.FirstOrDefault(a => a.ExternalId == externalId && a.EmployeeId == employeeId);
 
             if (application == null)
             {
@@ -44,6 +38,7 @@ namespace Commander.Data
 
         public bool CreateAdvert(Advert advert)
         {
+            advert.ExternalId = Guid.NewGuid().ToString();
             _context.Adverts.Add(advert);
             return true;
         }
@@ -52,6 +47,18 @@ namespace Commander.Data
         {
             var foundAdvert = _context.Adverts.FirstOrDefault(advert => advert.ExternalId == externalId);
             return foundAdvert;
+        }
+
+        public bool IsEmployeeApplied(string employeeId, string advertId)
+        {
+            // Check if user applied earlier
+            var application = _context.Applications.FirstOrDefault(a => a.AdvertId == advertId && a.EmployeeId == employeeId);
+            if (application != null)
+            {
+                return true;
+            }
+
+            return false;
         }
 
         public bool RemoveAdvert(string externalId)
@@ -64,7 +71,7 @@ namespace Commander.Data
             }
 
             _context.Adverts.Remove(advert);
-            return true;
+            return true;   
         }
 
         public bool SaveChanges()

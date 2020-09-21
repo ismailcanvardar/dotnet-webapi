@@ -14,6 +14,7 @@ namespace Commander.Data
         bool ApplyToAdvert(Application attendance);
         IEnumerable<Advert> SearchAdverts(AdvertSearchDto advertSearchDto);
         Advert GetAdvert(string externalId);
-        bool CancelApplication(string externalId);
+        bool CancelApplication(string externalId, string employeeId);
+        bool IsEmployeeApplied(string employeeId, string advertId);
     }
 }
