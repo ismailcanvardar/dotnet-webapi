@@ -4,13 +4,13 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 using AutoMapper;
-using Commander.Data;
-using Commander.Models;
+using KariyerAppApi.Data;
+using KariyerAppApi.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 
-namespace Commander.Controllers
+namespace KariyerAppApi.Controllers
 {
     [Route("api/employers")]
     [ApiController]

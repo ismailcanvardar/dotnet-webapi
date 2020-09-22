@@ -1,5 +1,5 @@
 {
-  "FilePath": "/Users/ismailcanvardar/Desktop/kariyer_app_backend/Commander/Commander.csproj",
+  "FilePath": "/Users/ismailcanvardar/Desktop/kariyer-app/KariyerAppApi/KariyerAppApi.csproj",
   "Configuration": {
     "ConfigurationName": "MVC-3.0",
     "LanguageVersion": "3.0",
@@ -14389,7 +14389,7 @@
     ],
     "CSharpLanguageVersion": 800
   },
-  "RootNamespace": "Commander",
+  "RootNamespace": "KariyerAppApi",
   "Documents": [],
   "SerializationFormat": "0.2"
 }

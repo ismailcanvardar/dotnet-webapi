@@ -1,8 +1,8 @@
 using System;
 using System.Collections.Generic;
-using Commander.Models;
+using KariyerAppApi.Models;
 
-namespace Commander.Data
+namespace KariyerAppApi.Data
 {
     public interface IEmployeeRepo
     {

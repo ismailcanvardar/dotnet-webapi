@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Commander.Models;
+using KariyerAppApi.Models;
 
-namespace Commander.Data
+namespace KariyerAppApi.Data
 {
     public class ApplicationRepo : IApplicationRepo
     {

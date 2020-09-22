@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using Commander.Dtos;
-using Commander.Models;
+using KariyerAppApi.Dtos;
+using KariyerAppApi.Models;
 
-namespace Commander.Data
+namespace KariyerAppApi.Data
 {
     public interface IAdvertRepo
     {

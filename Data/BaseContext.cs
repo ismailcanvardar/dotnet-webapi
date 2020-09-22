@@ -1,7 +1,7 @@
-using Commander.Models;
+using KariyerAppApi.Models;
 using Microsoft.EntityFrameworkCore;
 
-namespace Commander.Data
+namespace KariyerAppApi.Data
 {
     public class BaseContext : DbContext
     {

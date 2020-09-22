@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using AutoMapper;
-using Commander.Data;
-using Commander.Models;
+using KariyerAppApi.Data;
+using KariyerAppApi.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
 using System.Security.Claims;
@@ -11,7 +11,7 @@ using System.IdentityModel.Tokens.Jwt;
 using System;
 using Microsoft.Extensions.Configuration;
 
-namespace Commander.Controllers
+namespace KariyerAppApi.Controllers
 {
     [Route("api/employees")]
     [ApiController]

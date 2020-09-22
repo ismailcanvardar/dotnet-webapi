@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace Commander.Models
+namespace KariyerAppApi.Models
 {
     public class EmployerLoginDto
     {

@@ -2,15 +2,15 @@
 using System.Collections.Generic;
 using System.Linq;
 using AutoMapper;
-using Commander.Data;
-using Commander.Dtos;
-using Commander.Models;
+using KariyerAppApi.Data;
+using KariyerAppApi.Dtos;
+using KariyerAppApi.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 
-namespace Commander.Controllers
+namespace KariyerAppApi.Controllers
 {
     [Route("api/pickedEmployees")]
     [ApiController]

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 
-namespace Commander.Dtos
+namespace KariyerAppApi.Dtos
 {
     public class AdvertSearchDto
     {

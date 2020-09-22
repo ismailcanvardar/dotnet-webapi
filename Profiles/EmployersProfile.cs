@@ -1,8 +1,8 @@
 ﻿using AutoMapper;
-using Commander.Dtos;
-using Commander.Models;
+using KariyerAppApi.Dtos;
+using KariyerAppApi.Models;
 
-namespace Commander.Profiles
+namespace KariyerAppApi.Profiles
 {
     public class EmployersProfile : Profile
     {
