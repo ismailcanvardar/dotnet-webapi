@@ -36,7 +36,7 @@ namespace KariyerAppApi.Controllers
         [HttpPost("apply/{advertId}")]
         public ActionResult<Application> ApplyToAdvert(Guid advertId)
         {
-            if (_authenticationHelper.IsUser())
+            if (_authenticationHelper.IsEmployee())
             {
                 var appliedAdvert = _advertRepository.GetAdvert(advertId);
                 if (_applicationRepository.IsEmployeeApplied(_authenticationHelper.GetCurrentUserId(), appliedAdvert.AdvertId) == true)
@@ -62,7 +62,7 @@ namespace KariyerAppApi.Controllers
         [HttpDelete("apply/{applicationId}")]
         public ActionResult CancelApplication(Guid applicationId)
         {
-            if (_authenticationHelper.IsUser())
+            if (_authenticationHelper.IsEmployee())
             {
                 var canceledApplication = _applicationRepository.CancelApplication(applicationId, _authenticationHelper.GetCurrentUserId());
                 if (canceledApplication != null)
@@ -83,7 +83,7 @@ namespace KariyerAppApi.Controllers
         [HttpGet("myApplications")]
         public ActionResult<IEnumerable<Application>> GetMyApplications()
         {
-            if (_authenticationHelper.IsUser())
+            if (_authenticationHelper.IsEmployee())
             {
                 var applications = _applicationRepository.GetMyApplications(_authenticationHelper.GetCurrentUserId());
                 return Ok(applications);

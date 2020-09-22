@@ -7,7 +7,7 @@ namespace KariyerAppApi.Helpers
     public interface IAuthenticationHelper
     {
         bool IsEmployer();
-        bool IsUser();
+        bool IsEmployee();
         Guid GetCurrentUserId();
         string GenerateJSONWebTokenForEmployee(Employee employee);
         string GenerateJSONWebTokenForEmployer(Employer employer);

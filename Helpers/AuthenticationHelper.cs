@@ -35,7 +35,7 @@ namespace KariyerAppApi.Helpers
             return false;
         }
 
-        public bool IsUser()
+        public bool IsEmployee()
         {
             var currentUser = _httpContextAccessor.HttpContext.User;
             var userRole = currentUser.Claims.FirstOrDefault(c => c.Type == "Role").Value;
