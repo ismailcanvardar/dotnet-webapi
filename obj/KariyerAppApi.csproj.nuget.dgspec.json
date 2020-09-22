@@ -1,15 +1,15 @@
 {
   "format": 1,
   "restore": {
-    "/Users/ismailcanvardar/Desktop/kariyer-app/KariyerAppApi/Commander.csproj": {}
+    "/Users/ismailcanvardar/Desktop/kariyer-app/KariyerAppApi/KariyerAppApi.csproj": {}
   },
   "projects": {
-    "/Users/ismailcanvardar/Desktop/kariyer-app/KariyerAppApi/Commander.csproj": {
+    "/Users/ismailcanvardar/Desktop/kariyer-app/KariyerAppApi/KariyerAppApi.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/Users/ismailcanvardar/Desktop/kariyer-app/KariyerAppApi/Commander.csproj",
-        "projectName": "Commander",
-        "projectPath": "/Users/ismailcanvardar/Desktop/kariyer-app/KariyerAppApi/Commander.csproj",
+        "projectUniqueName": "/Users/ismailcanvardar/Desktop/kariyer-app/KariyerAppApi/KariyerAppApi.csproj",
+        "projectName": "KariyerAppApi",
+        "projectPath": "/Users/ismailcanvardar/Desktop/kariyer-app/KariyerAppApi/KariyerAppApi.csproj",
         "packagesPath": "/Users/ismailcanvardar/.nuget/packages/",
         "outputPath": "/Users/ismailcanvardar/Desktop/kariyer-app/KariyerAppApi/obj/",
         "projectStyle": "PackageReference",

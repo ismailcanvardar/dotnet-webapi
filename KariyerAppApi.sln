@@ -1,7 +1,7 @@
 
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Commander", "Commander.csproj", "{1F6689A1-9C5F-4044-8B85-B79CAF5B6DF2}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KariyerAppApi", "KariyerAppApi.csproj", "{1F6689A1-9C5F-4044-8B85-B79CAF5B6DF2}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

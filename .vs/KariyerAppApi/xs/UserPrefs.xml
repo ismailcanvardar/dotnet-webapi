@@ -1,17 +1,10 @@
-﻿<Properties GitUserInfo="UsingGIT" StartupConfiguration="{1F6689A1-9C5F-4044-8B85-B79CAF5B6DF2}|Default">
-  <MonoDevelop.Ide.Workbench ActiveDocument="appsettings.Development.json">
-    <Files>
-      <File FileName="appsettings.Development.json" Line="1" Column="1" />
-      <File FileName="appsettings.json" />
-      <File FileName="Program.cs" />
-      <File FileName="README.md" />
-      <File FileName="Startup.cs" />
-    </Files>
+﻿<Properties GitUserInfo="UsingGIT" StartupConfiguration="{1F6689A1-9C5F-4044-8B85-B79CAF5B6DF2}|Commander">
+  <MonoDevelop.Ide.Workbench>
     <Pads>
       <Pad Id="ProjectPad">
         <State name="__root__">
-          <Node name="Commander" expanded="True" selected="True">
-            <Node name="Commander" expanded="True">
+          <Node name="KariyerAppApi" expanded="True">
+            <Node name="KariyerAppApi" expanded="True">
               <Node name="Controllers" expanded="True" />
               <Node name="Data" expanded="True" />
               <Node name="Dtos" expanded="True" />
@@ -19,15 +12,16 @@
               <Node name="Profiles" expanded="True" />
               <Node name="Properties" expanded="True" />
               <Node name="appsettings.json" expanded="True" />
+              <Node name="Startup.cs" selected="True" />
             </Node>
           </Node>
         </State>
       </Pad>
     </Pads>
   </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.ItemProperties.KariyerAppApi PreferredExecutionTarget="/Applications/Microsoft Edge.app" />
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Release" />
-  <MonoDevelop.Ide.ItemProperties.Commander PreferredExecutionTarget="/Applications/Microsoft Edge.app" />
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore />
   </MonoDevelop.Ide.DebuggingService.Breakpoints>

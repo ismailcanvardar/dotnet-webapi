@@ -5532,14 +5532,14 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "/Users/ismailcanvardar/Desktop/kariyer_app_backend/Commander/Commander.csproj",
-      "projectName": "Commander",
-      "projectPath": "/Users/ismailcanvardar/Desktop/kariyer_app_backend/Commander/Commander.csproj",
+      "projectUniqueName": "/Users/ismailcanvardar/Desktop/kariyer-app/KariyerAppApi/KariyerAppApi.csproj",
+      "projectName": "KariyerAppApi",
+      "projectPath": "/Users/ismailcanvardar/Desktop/kariyer-app/KariyerAppApi/KariyerAppApi.csproj",
       "packagesPath": "/Users/ismailcanvardar/.nuget/packages/",
-      "outputPath": "/Users/ismailcanvardar/Desktop/kariyer_app_backend/Commander/obj/",
+      "outputPath": "/Users/ismailcanvardar/Desktop/kariyer-app/KariyerAppApi/obj/",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "/Users/ismailcanvardar/.nuget/NuGet/NuGet.Config"
+        "/Users/ismailcanvardar/.config/NuGet/NuGet.Config"
       ],
       "originalTargetFrameworks": [
         "netcoreapp3.1"
