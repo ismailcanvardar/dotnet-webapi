@@ -56,10 +56,11 @@ namespace Commander
 
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
-            services.AddScoped<ICommanderRepo, SqlCommanderRepo>();
             services.AddScoped<IEmployeeRepo, EmployeeRepo>();
             services.AddScoped<IEmployerRepo, EmployerRepo>();
             services.AddScoped<IAdvertRepo, AdvertRepo>();
+            services.AddScoped<IApplicationRepo, ApplicationRepo>();
+            services.AddScoped<IPickedEmployeeRepo, PickedEmployeeRepo>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

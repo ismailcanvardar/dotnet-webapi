@@ -7,6 +7,7 @@ namespace Commander.Models
 {
     public class Employer
     {
+        [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public Guid EmployerId { get; set; }
 

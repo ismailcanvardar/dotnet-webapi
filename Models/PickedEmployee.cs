@@ -6,6 +6,7 @@ namespace Commander.Models
 {
     public class PickedEmployee
     {
+        [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public Guid PickedEmployeeId { get; set; }
 

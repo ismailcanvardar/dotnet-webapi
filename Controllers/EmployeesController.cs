@@ -17,13 +17,13 @@ namespace Commander.Controllers
     [ApiController]
     public class EmployeesController : ControllerBase
     {
-        private readonly IEmployeeRepo _repository;
+        private readonly IEmployeeRepo _employeeRepository;
         private readonly IMapper _mapper;
         private readonly IConfiguration _config;
 
-        public EmployeesController(IEmployeeRepo repository, IMapper mapper, IConfiguration config)
+        public EmployeesController(IEmployeeRepo employeeRepository, IMapper mapper, IConfiguration config)
         {
-            _repository = repository;
+            _employeeRepository = employeeRepository;
             _mapper = mapper;
             _config = config;
         }
@@ -31,7 +31,7 @@ namespace Commander.Controllers
         [HttpGet("login/{email}/{password}")]
         public ActionResult<EmployeeLoginDto> LoginEmployee(string email, string password)
         {
-            Employee employee = _repository.GetEmployeeByEmail(email);
+            Employee employee = _employeeRepository.GetEmployeeByEmail(email);
 
             // Controls if there is a user with the given email or hashed password is true
             // against given password from parameters
@@ -50,7 +50,7 @@ namespace Commander.Controllers
         [HttpGet("findUser/{employeeId}")]
         public ActionResult GetEmployee(Guid employeeId)
         {
-            var employee = _repository.GetEmployee(employeeId);
+            var employee = _employeeRepository.GetEmployee(employeeId);
 
             if (employee == null)
             {
@@ -63,7 +63,7 @@ namespace Commander.Controllers
         [HttpGet("findUsers/{searchCriteria}/{offset}/{limit}")]
         public ActionResult<IEnumerable<EmployeeReadDto>> SearchUser(string searchCriteria, int offset, int limit)
         {
-            var employees = _repository.SearchEmployees(searchCriteria, offset, limit);
+            var employees = _employeeRepository.SearchEmployees(searchCriteria, offset, limit);
 
             return Ok(_mapper.Map<IEnumerable<EmployeeReadDto>>(employees));
         }
@@ -71,7 +71,7 @@ namespace Commander.Controllers
         [HttpPost]
         public ActionResult RegisterUser([FromBody] EmployeeCreateDto employeeCreateDto)
         {
-            var foundEmployee = _repository.GetEmployeeByEmail(employeeCreateDto.Email);
+            var foundEmployee = _employeeRepository.GetEmployeeByEmail(employeeCreateDto.Email);
 
             if (foundEmployee == null)
             {
@@ -79,8 +79,8 @@ namespace Commander.Controllers
 
                 employeeModel.Password = BCrypt.Net.BCrypt.HashPassword(employeeModel.Password);
 
-                _repository.RegisterEmployee(employeeModel);
-                _repository.SaveChanges();
+                _employeeRepository.RegisterEmployee(employeeModel);
+                _employeeRepository.SaveChanges();
 
                 var employeeReadDto = _mapper.Map<EmployeeReadDto>(employeeModel);
 
