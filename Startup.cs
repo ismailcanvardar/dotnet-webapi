@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using AutoMapper;
 using KariyerAppApi.Data;
+using KariyerAppApi.Helpers;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -55,12 +56,15 @@ namespace KariyerAppApi
             });
 
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+            services.AddHttpContextAccessor();
 
             services.AddScoped<IEmployeeRepo, EmployeeRepo>();
             services.AddScoped<IEmployerRepo, EmployerRepo>();
             services.AddScoped<IAdvertRepo, AdvertRepo>();
             services.AddScoped<IApplicationRepo, ApplicationRepo>();
             services.AddScoped<IPickedEmployeeRepo, PickedEmployeeRepo>();
+            services.AddScoped<IRatingRepo, RatingRepo>();
+            services.AddScoped<IAuthenticationHelper, AuthenticationHelper>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

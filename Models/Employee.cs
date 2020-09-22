@@ -32,8 +32,11 @@ namespace KariyerAppApi.Models
         [DefaultValue(null)]
         public string ProfilePhoto { get; set; }
 
+        [DefaultValue(0.0)]
+        public float RatingCount { get; set; }
+
         [DefaultValue(0)]
-        public int RatingCount { get; set; }
+        public float TotalRating { get; set; }
 
         public DateTime CreatedAt { get; set; } = DateTime.Now;
     }

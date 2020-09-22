@@ -4,6 +4,7 @@ using System.Linq;
 using AutoMapper;
 using KariyerAppApi.Data;
 using KariyerAppApi.Dtos;
+using KariyerAppApi.Helpers;
 using KariyerAppApi.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -19,12 +20,14 @@ namespace KariyerAppApi.Controllers
         private readonly IAdvertRepo _advertRepository;
         private readonly IMapper _mapper;
         private readonly IConfiguration _config;
+        private readonly IAuthenticationHelper _authenticationHelper;
 
-        public AdvertsController(IAdvertRepo advertRepository, IMapper mapper, IConfiguration config)
+        public AdvertsController(IAdvertRepo advertRepository, IMapper mapper, IConfiguration config, IAuthenticationHelper authenticationHelper)
         {
             _advertRepository = advertRepository;
             _mapper = mapper;
             _config = config;
+            _authenticationHelper = authenticationHelper;
         }
 
         [Authorize]
@@ -50,10 +53,10 @@ namespace KariyerAppApi.Controllers
         [HttpPost]
         public ActionResult<AdvertReadDto> CreateAdvert(AdvertCreateDto advertCreateDto)
         {
-            if (IsEmployer())
+            if (_authenticationHelper.IsEmployer())
             {
                 var advertModel = _mapper.Map<Advert>(advertCreateDto);
-                advertModel.EmployerId = GetCurrentUserExternalId();
+                advertModel.EmployerId = _authenticationHelper.GetCurrentUserId();
                 _advertRepository.CreateAdvert(advertModel);
                 _advertRepository.SaveChanges();
 
@@ -81,10 +84,10 @@ namespace KariyerAppApi.Controllers
         [HttpDelete("{advertId}")]
         public ActionResult<bool> RemoveAdvert(Guid advertId)
         {
-            if (IsEmployer())
+            if (_authenticationHelper.IsEmployer())
             {
                 var advert = _advertRepository.GetAdvert(advertId);
-                if (advert.EmployerId == GetCurrentUserExternalId())
+                if (advert.EmployerId == _authenticationHelper.GetCurrentUserId())
                 {
                     var isDeleted = _advertRepository.RemoveAdvert(advertId);
                     if (isDeleted)
@@ -109,47 +112,13 @@ namespace KariyerAppApi.Controllers
         [HttpGet("myAdverts")]
         public ActionResult<IEnumerable<Advert>> GetMyAdverts()
         {
-            if (IsEmployer())
+            if (_authenticationHelper.IsEmployer())
             {
-                var adverts = _advertRepository.GetMyAdverts(GetCurrentUserExternalId());
+                var adverts = _advertRepository.GetMyAdverts(_authenticationHelper.GetCurrentUserId());
                 return Ok(adverts);
             }
 
             return Problem(title: "Unable to fetch.", detail: "Only employers can get their adverts.");
-        }
-
-        public bool IsEmployer()
-        {
-            var currentUser = HttpContext.User;
-            var userRole = currentUser.Claims.FirstOrDefault(c => c.Type == "Role").Value;
-
-            if (userRole == "Employer")
-            {
-                return true;
-            }
-
-            return false;
-        }
-
-        public bool IsUser()
-        {
-            var currentUser = HttpContext.User;
-            var userRole = currentUser.Claims.FirstOrDefault(c => c.Type == "Role").Value;
-
-            if (userRole == "User")
-            {
-                return true;
-            }
-
-            return false;
-        }
-
-        public Guid GetCurrentUserExternalId()
-        {
-            var currentUser = HttpContext.User;
-            var currentUserId = currentUser.Claims.FirstOrDefault(c => c.Type == "CurrentUserId").Value;
-
-            return Guid.Parse(currentUserId);
         }
     }
 }

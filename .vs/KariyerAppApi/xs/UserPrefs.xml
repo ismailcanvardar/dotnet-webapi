@@ -5,7 +5,15 @@
         <State name="__root__">
           <Node name="KariyerAppApi" expanded="True">
             <Node name="KariyerAppApi" expanded="True">
-              <Node name="Dtos" selected="True" />
+              <Node name="Controllers" expanded="True">
+                <Node name="ApplicationsController.cs" selected="True" />
+              </Node>
+              <Node name="Data" expanded="True" />
+              <Node name="Dtos" expanded="True" />
+              <Node name="Helpers" expanded="True" />
+              <Node name="Migrations" expanded="True" />
+              <Node name="Models" expanded="True" />
+              <Node name="Profiles" expanded="True" />
             </Node>
           </Node>
         </State>

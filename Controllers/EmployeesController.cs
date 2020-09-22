@@ -10,6 +10,7 @@ using System.Text;
 using System.IdentityModel.Tokens.Jwt;
 using System;
 using Microsoft.Extensions.Configuration;
+using KariyerAppApi.Helpers;
 
 namespace KariyerAppApi.Controllers
 {
@@ -20,12 +21,14 @@ namespace KariyerAppApi.Controllers
         private readonly IEmployeeRepo _employeeRepository;
         private readonly IMapper _mapper;
         private readonly IConfiguration _config;
+        private readonly IAuthenticationHelper _authenticationHelper;
 
-        public EmployeesController(IEmployeeRepo employeeRepository, IMapper mapper, IConfiguration config)
+        public EmployeesController(IEmployeeRepo employeeRepository, IMapper mapper, IConfiguration config, IAuthenticationHelper authenticationHelper)
         {
             _employeeRepository = employeeRepository;
             _mapper = mapper;
             _config = config;
+            _authenticationHelper = authenticationHelper;
         }
 
         [HttpGet("login/{email}/{password}")]
@@ -42,7 +45,7 @@ namespace KariyerAppApi.Controllers
 
             var employeeLoginDto = _mapper.Map<EmployeeLoginDto>(employee);
 
-            employeeLoginDto.Token = GenerateJSONWebTokenForUser(employee);
+            employeeLoginDto.Token = _authenticationHelper.GenerateJSONWebTokenForEmployee(employee);
 
             return Ok(employeeLoginDto);
         }
@@ -88,26 +91,6 @@ namespace KariyerAppApi.Controllers
             }
 
             return Problem(title: "Unable to register.", detail: "Email already in use.");
-        }
-
-        private string GenerateJSONWebTokenForUser(Employee employee)
-        {
-            var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["Jwt:Key"]));
-            var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
-
-            var claims = new[]
-            {
-                new Claim("Role", "User"),
-                new Claim("CurrentUserId", employee.EmployeeId.ToString())
-            };
-
-            var token = new JwtSecurityToken(_config["Jwt:Issuer"],
-              _config["Jwt:Issuer"],
-              claims,
-              expires: DateTime.Now.AddMinutes(120),
-              signingCredentials: credentials);
-
-            return new JwtSecurityTokenHandler().WriteToken(token);
         }
     }
 

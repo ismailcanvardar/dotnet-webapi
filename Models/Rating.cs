@@ -17,6 +17,12 @@ namespace KariyerAppApi.Models
         [Required]
         public Guid EmployeeId { get; set; }
 
+        [Required]
+        public Guid AdvertId { get; set; }
+
+        [Required]
+        public int GivenRating { get; set; }
+
         public DateTime CreatedAt { get; set; } = DateTime.Now;
     }
 }
