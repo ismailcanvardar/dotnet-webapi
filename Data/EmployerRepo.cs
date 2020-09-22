@@ -20,9 +20,9 @@ namespace Commander.Data
             throw new NotImplementedException();
         }
 
-        public Employer GetEmployer(string externalId)
+        public Employer GetEmployer(Guid employerId)
         {
-           return _context.Employers.FirstOrDefault(p => p.ExternalId == externalId);
+           return _context.Employers.FirstOrDefault(p => p.EmployerId == employerId);
         }
 
         public Employer GetEmployerByEmail(string email)
@@ -32,21 +32,6 @@ namespace Commander.Data
 
         public void RegisterEmployer(Employer employer)
         {
-            if (employer == null)
-            {
-                throw new ArgumentNullException(nameof(employer));
-            }
-
-            var isUserExists = _context.Users.FirstOrDefault(p => p.Email == employer.Email);
-
-            if (isUserExists != null)
-            {
-                throw new ArgumentNullException(nameof(employer));
-            }
-
-            // Adds uuid to user's external id property
-            employer.ExternalId = Guid.NewGuid().ToString();
-
             _context.Employers.Add(employer);
         }
 

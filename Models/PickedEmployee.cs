@@ -1,24 +1,22 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Commander.Models
 {
     public class PickedEmployee
     {
-        [Key]
-        public int Id { get; set; }
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        public Guid PickedEmployeeId { get; set; }
 
         [Required]
-        public string ExternalId { get; set; }
+        public Guid EmployerId { get; set; }
 
         [Required]
-        public string EmployerExternalId { get; set; }
+        public Guid EmployeeId { get; set; }
 
         [Required]
-        public string EmployeeExternalId { get; set; }
-
-        [Required]
-        public string AdvertExternalId { get; set; }
+        public Guid AdvertId { get; set; }
 
         public DateTime CreatedAt { get; set; } = DateTime.Now;
     }

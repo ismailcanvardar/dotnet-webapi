@@ -1,16 +1,14 @@
 using System;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Commander.Models
 {
-    public class User
+    public class Employee
     {
-        [Key]
-        public int Id { get; set; }
-
-        [Required]
-        public string ExternalId { get; set; }
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        public Guid EmployeeId { get; set; }
 
         [Required]
         public string Name { get; set; }

@@ -16,16 +16,15 @@ namespace Commander.Data
             _context = context;
         }
 
-        public bool ApplyToAdvert(Application attendance)
+        public bool ApplyToAdvert(Application application)
         {
-            attendance.ExternalId = Guid.NewGuid().ToString();
-            _context.Applications.Add(attendance);
+            _context.Applications.Add(application);
             return true;
         }
 
-        public Application CancelApplication(string externalId, string employeeId)
+        public Application CancelApplication(Guid applicationId, Guid employeeId)
         {
-            var application = _context.Applications.FirstOrDefault(a => a.ExternalId == externalId && a.EmployeeId == employeeId);
+            var application = _context.Applications.FirstOrDefault(a => a.ApplicationId == applicationId && a.EmployeeId == employeeId);
 
             if (application == null)
             {
@@ -38,36 +37,35 @@ namespace Commander.Data
 
         public bool CreateAdvert(Advert advert)
         {
-            advert.ExternalId = Guid.NewGuid().ToString();
             _context.Adverts.Add(advert);
             return true;
         }
 
-        public Advert GetAdvert(string externalId)
+        public Advert GetAdvert(Guid advertId)
         {
-            var foundAdvert = _context.Adverts.FirstOrDefault(advert => advert.ExternalId == externalId);
+            var foundAdvert = _context.Adverts.FirstOrDefault(advert => advert.AdvertId == advertId);
             return foundAdvert;
         }
 
-        public IEnumerable<Application> GetMyApplications(string employeeExternalId)
+        public IEnumerable<Application> GetMyApplications(Guid employeeId)
         {
-            var applications = _context.Applications.Where(app => app.EmployeeId.Equals(employeeExternalId)).OrderByDescending(app => app.CreatedAt).ToList();
+            var applications = _context.Applications.Where(app => app.EmployeeId.Equals(employeeId)).OrderByDescending(app => app.CreatedAt).ToList();
             return applications;
         }
 
-        public IEnumerable<Advert> GetMyAdverts(string employerExternalId)
+        public IEnumerable<Advert> GetMyAdverts(Guid employerId)
         {
-            var adverts = _context.Adverts.Where(ad => ad.EmployerId.Equals(employerExternalId)).OrderByDescending(ad => ad.CreatedAt).ToList();
+            var adverts = _context.Adverts.Where(ad => ad.EmployerId.Equals(employerId)).OrderByDescending(ad => ad.CreatedAt).ToList();
             return adverts;
         }
 
-        public PickedEmployee GetPickedEmployee(string pickedEmployeeExternalId)
+        public PickedEmployee GetPickedEmployee(Guid pickedEmployeeId)
         {
-            PickedEmployee pickedEmployee = _context.PickedEmployees.FirstOrDefault(pe => pe.ExternalId == pickedEmployeeExternalId);
+            PickedEmployee pickedEmployee = _context.PickedEmployees.FirstOrDefault(pe => pe.PickedEmployeeId == pickedEmployeeId);
             return pickedEmployee;
         }
 
-        public bool IsEmployeeApplied(string employeeId, string advertId)
+        public bool IsEmployeeApplied(Guid employeeId, Guid advertId)
         {
             // Check if user applied earlier
             var application = _context.Applications.FirstOrDefault(a => a.AdvertId == advertId && a.EmployeeId == employeeId);
@@ -79,9 +77,9 @@ namespace Commander.Data
             return false;
         }
 
-        public void ManageApplicantCount(string advertExternalId, ApplicantCountOperation applicantCountOperation)
+        public void ManageApplicantCount(Guid advertId, ApplicantCountOperation applicantCountOperation)
         {
-            var advert = _context.Adverts.FirstOrDefault(a => a.ExternalId == advertExternalId);
+            var advert = _context.Adverts.FirstOrDefault(a => a.AdvertId == advertId);
 
             if (applicantCountOperation == ApplicantCountOperation.Increment)
             {
@@ -96,13 +94,12 @@ namespace Commander.Data
 
         public void PickEmployee(PickedEmployee pickedEmployee)
         {
-            pickedEmployee.ExternalId = Guid.NewGuid().ToString();
             _context.PickedEmployees.Add(pickedEmployee);
         }
 
-        public bool RemoveAdvert(string externalId)
+        public bool RemoveAdvert(Guid advertId)
         {
-            var advert = _context.Adverts.FirstOrDefault(advert => advert.ExternalId == externalId);
+            var advert = _context.Adverts.FirstOrDefault(advert => advert.AdvertId == advertId);
 
             if (advert == null)
             {
@@ -142,15 +139,15 @@ namespace Commander.Data
             throw new NotImplementedException();
         }
 
-        public IEnumerable<Application> GetApplicationsByAdvert(string advertExternalId)
+        public IEnumerable<Application> GetApplicationsByAdvert(Guid advertId)
         {
-            var applications = _context.Applications.Where(app => app.AdvertId == advertExternalId).ToList();
+            var applications = _context.Applications.Where(app => app.AdvertId == advertId).ToList();
             return applications;
         }
 
-        public PickedEmployee GetPickedEmployeeByAdvertAndEmployee(string advertExternalId, string employeeExternalId)
+        public PickedEmployee GetPickedEmployeeByAdvertAndEmployee(Guid advertId, Guid employeeId)
         {
-            var pickedEmployee = _context.PickedEmployees.FirstOrDefault(pe => pe.AdvertExternalId.Equals(advertExternalId) && pe.EmployeeExternalId.Equals(employeeExternalId));
+            var pickedEmployee = _context.PickedEmployees.FirstOrDefault(pe => pe.AdvertId.Equals(advertId) && pe.EmployeeId.Equals(employeeId));
             return pickedEmployee;
         }
     }

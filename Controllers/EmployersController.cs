@@ -46,10 +46,10 @@ namespace Commander.Controllers
             return Ok(employerLoginDto);
         }
 
-        [HttpGet("findEmployer/{externalId}")]
-        public ActionResult GetEmployer(string externalId)
+        [HttpGet("findEmployer/{employerId}")]
+        public ActionResult GetEmployer(Guid employerId)
         {
-            var foundEmployer = _repository.GetEmployer(externalId);
+            var foundEmployer = _repository.GetEmployer(employerId);
 
             if (foundEmployer == null)
             {
@@ -70,16 +70,23 @@ namespace Commander.Controllers
         [HttpPost]
         public ActionResult RegisterEmployer([FromBody] EmployerCreateDto employerCreateDto)
         {
-            var employerModel = _mapper.Map<Employer>(employerCreateDto);
+            var foundEmployer = _repository.GetEmployerByEmail(employerCreateDto.Email);
 
-            employerModel.Password = BCrypt.Net.BCrypt.HashPassword(employerModel.Password);
+            if (foundEmployer == null)
+            {
+                var employerModel = _mapper.Map<Employer>(employerCreateDto);
 
-            _repository.RegisterEmployer(employerModel);
-            _repository.SaveChanges();
+                employerModel.Password = BCrypt.Net.BCrypt.HashPassword(employerModel.Password);
 
-            var employerReadDto = _mapper.Map<EmployerReadDto>(employerModel);
+                _repository.RegisterEmployer(employerModel);
+                _repository.SaveChanges();
 
-            return Ok(employerReadDto);
+                var employerReadDto = _mapper.Map<EmployerReadDto>(employerModel);
+
+                return Ok(employerReadDto);
+            }
+
+            return Problem(title: "Unable to register.", detail: "Email already in use.");
         }
 
         private string GenerateJSONWebTokenForEmployer(Employer employer)
@@ -90,7 +97,7 @@ namespace Commander.Controllers
             var claims = new[]
             {
                 new Claim("Role", "Employer"),
-                new Claim("ExternalId", employer.ExternalId)
+                new Claim("CurrentUserId", employer.EmployerId.ToString())
             };
 
             var token = new JwtSecurityToken(_config["Jwt:Issuer"],

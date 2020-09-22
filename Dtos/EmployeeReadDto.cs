@@ -2,24 +2,20 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Commander.Models
 {
-    public class UserCreateDto
+    public class EmployeeReadDto
     {
-        [Required]
         public string Name { get; set; }
 
-        [Required]
         public string Surname { get; set; }
 
-        [Required]
         public string Email { get; set; }
 
-        [Required]
         public string Phone { get; set; }
 
-        [Required]
-        public string Password { get; set; }
+        public string ProfilePhoto { get; set; }
 
-        [Required]
         public string Address { get; set; }
+
+        public int RatingCount { get; set; }
     }
 }

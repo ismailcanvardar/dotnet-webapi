@@ -6,9 +6,9 @@ namespace Commander.Dtos
     public class PickedEmployeeRemoveDto
     {
         [Required]
-        public string EmployeeExternalId { get; set; }
+        public Guid EmployeeId { get; set; }
 
         [Required]
-        public string AdvertExternalId { get; set; }
+        public Guid AdvertId { get; set; }
     }
 }

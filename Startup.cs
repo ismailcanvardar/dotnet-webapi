@@ -57,7 +57,7 @@ namespace Commander
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
             services.AddScoped<ICommanderRepo, SqlCommanderRepo>();
-            services.AddScoped<IUserRepo, UserRepo>();
+            services.AddScoped<IEmployeeRepo, EmployeeRepo>();
             services.AddScoped<IEmployerRepo, EmployerRepo>();
             services.AddScoped<IAdvertRepo, AdvertRepo>();
         }

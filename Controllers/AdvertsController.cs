@@ -28,15 +28,15 @@ namespace Commander.Controllers
         }
 
         [Authorize]
-        [HttpGet]
-        public ActionResult<Advert> GetAdvert([FromBody] string externalId)
+        [HttpGet("{advertId}")]
+        public ActionResult<Advert> GetAdvert(Guid advertId)
         {
-            if (externalId == null)
+            if (advertId == null)
             {
                 return Problem(title: "Lack of information.", detail: "ExternalId is not provided.");
             }
 
-            var advert = _repository.GetAdvert(externalId);
+            var advert = _repository.GetAdvert(advertId);
 
             if (advert == null)
             {
@@ -78,15 +78,15 @@ namespace Commander.Controllers
         }
 
         [Authorize]
-        [HttpDelete("{externalId}")]
-        public ActionResult<bool> RemoveAdvert(string externalId)
+        [HttpDelete("{advertId}")]
+        public ActionResult<bool> RemoveAdvert(Guid advertId)
         {
             if (IsEmployer())
             {
-                var advert = _repository.GetAdvert(externalId);
+                var advert = _repository.GetAdvert(advertId);
                 if (advert.EmployerId == GetCurrentUserExternalId())
                 {
-                    var isDeleted = _repository.RemoveAdvert(externalId);
+                    var isDeleted = _repository.RemoveAdvert(advertId);
                     if (isDeleted)
                     {
                         _repository.SaveChanges();
@@ -106,18 +106,18 @@ namespace Commander.Controllers
         }
 
         [Authorize]
-        [HttpPost("apply/{advertExternalId}")]
-        public ActionResult<Application> ApplyToAdvert(string advertExternalId)
+        [HttpPost("apply/{advertId}")]
+        public ActionResult<Application> ApplyToAdvert(Guid advertId)
         {
             if (IsUser())
             {
-                var appliedAdvert = _repository.GetAdvert(advertExternalId);
-                if (_repository.IsEmployeeApplied(GetCurrentUserExternalId(), appliedAdvert.ExternalId) == true)
+                var appliedAdvert = _repository.GetAdvert(advertId);
+                if (_repository.IsEmployeeApplied(GetCurrentUserExternalId(), appliedAdvert.AdvertId) == true)
                 {
                     return Problem("Already applied.");
                 } else
                 {
-                    var application = new Application { AdvertId = appliedAdvert.ExternalId, EmployerId = appliedAdvert.EmployerId, EmployeeId = GetCurrentUserExternalId() };
+                    var application = new Application { AdvertId = appliedAdvert.AdvertId, EmployerId = appliedAdvert.EmployerId, EmployeeId = GetCurrentUserExternalId() };
                     _repository.ApplyToAdvert(application);
                     _repository.SaveChanges();
 
@@ -136,16 +136,16 @@ namespace Commander.Controllers
         {
             if (IsEmployer())
             {
-                var advert = _repository.GetAdvert(pickedEmployeeCreateDto.AdvertExternalId);
+                var advert = _repository.GetAdvert(pickedEmployeeCreateDto.AdvertId);
 
                 if (advert.EmployerId == GetCurrentUserExternalId())
                 {
-                    var foundPickedEmployee = _repository.GetPickedEmployeeByAdvertAndEmployee(pickedEmployeeCreateDto.AdvertExternalId, pickedEmployeeCreateDto.EmployeeExternalId);
+                    var foundPickedEmployee = _repository.GetPickedEmployeeByAdvertAndEmployee(pickedEmployeeCreateDto.AdvertId, pickedEmployeeCreateDto.EmployeeId);
 
                     if (foundPickedEmployee == null)
                     {
                         var pickedEmployeeModel = _mapper.Map<PickedEmployee>(pickedEmployeeCreateDto);
-                        pickedEmployeeModel.EmployerExternalId = GetCurrentUserExternalId();
+                        pickedEmployeeModel.EmployerId = GetCurrentUserExternalId();
                         _repository.PickEmployee(pickedEmployeeModel);
                         _repository.SaveChanges();
                         return Ok(pickedEmployeeModel);
@@ -166,11 +166,11 @@ namespace Commander.Controllers
         {
             if (IsEmployer())
             {
-                var advert = _repository.GetAdvert(pickedEmployeeRemoveDto.AdvertExternalId);
+                var advert = _repository.GetAdvert(pickedEmployeeRemoveDto.AdvertId);
 
                 if (advert.EmployerId == GetCurrentUserExternalId())
                 {
-                    var pickedEmployee = _repository.GetPickedEmployeeByAdvertAndEmployee(pickedEmployeeRemoveDto.AdvertExternalId, pickedEmployeeRemoveDto.EmployeeExternalId);
+                    var pickedEmployee = _repository.GetPickedEmployeeByAdvertAndEmployee(pickedEmployeeRemoveDto.AdvertId, pickedEmployeeRemoveDto.EmployeeId);
 
                     if (pickedEmployee != null)
                     {
@@ -189,12 +189,12 @@ namespace Commander.Controllers
         }
 
         [Authorize]
-        [HttpDelete("apply/{externalId}")]
-        public ActionResult CancelApplication(string externalId)
+        [HttpDelete("apply/{applicationId}")]
+        public ActionResult CancelApplication(Guid applicationId)
         {
             if (IsUser())
             {
-                var canceledApplication = _repository.CancelApplication(externalId, GetCurrentUserExternalId());
+                var canceledApplication = _repository.CancelApplication(applicationId, GetCurrentUserExternalId());
                 if (canceledApplication != null)
                 {
                     _repository.SaveChanges();
@@ -236,12 +236,12 @@ namespace Commander.Controllers
         }
 
         [Authorize]
-        [HttpGet("getApplicationsByAdvert/{advertExternalId}")]
-        public ActionResult<IEnumerable<Application>> GetApplicationsByAdvert(string advertExternalId)
+        [HttpGet("getApplicationsByAdvert/{advertId}")]
+        public ActionResult<IEnumerable<Application>> GetApplicationsByAdvert(Guid advertId)
         {
             if (IsEmployer())
             {
-                var applications = _repository.GetApplicationsByAdvert(advertExternalId);
+                var applications = _repository.GetApplicationsByAdvert(advertId);
                 return Ok(applications);
             }
 
@@ -274,17 +274,12 @@ namespace Commander.Controllers
             return false;
         }
 
-        public string GetCurrentUserExternalId()
+        public Guid GetCurrentUserExternalId()
         {
             var currentUser = HttpContext.User;
-            var userExternalId = currentUser.Claims.FirstOrDefault(c => c.Type == "ExternalId").Value;
+            var currentUserId = currentUser.Claims.FirstOrDefault(c => c.Type == "CurrentUserId").Value;
 
-            if (userExternalId != null)
-            {
-                return userExternalId;
-            }
-
-            return null;
+            return Guid.Parse(currentUserId);
         }
     }
 }
