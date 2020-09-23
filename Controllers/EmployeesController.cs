@@ -11,6 +11,9 @@ using System.IdentityModel.Tokens.Jwt;
 using System;
 using Microsoft.Extensions.Configuration;
 using KariyerAppApi.Helpers;
+using System.Threading.Tasks;
+using SendGrid;
+using SendGrid.Helpers.Mail;
 
 namespace KariyerAppApi.Controllers
 {
@@ -22,13 +25,15 @@ namespace KariyerAppApi.Controllers
         private readonly IMapper _mapper;
         private readonly IConfiguration _config;
         private readonly IAuthenticationHelper _authenticationHelper;
+        private readonly IEmailManagement _emailManagement;
 
-        public EmployeesController(IEmployeeRepo employeeRepository, IMapper mapper, IConfiguration config, IAuthenticationHelper authenticationHelper)
+        public EmployeesController(IEmployeeRepo employeeRepository, IMapper mapper, IConfiguration config, IAuthenticationHelper authenticationHelper, IEmailManagement emailManagement)
         {
             _employeeRepository = employeeRepository;
             _mapper = mapper;
             _config = config;
             _authenticationHelper = authenticationHelper;
+            _emailManagement = emailManagement;
         }
 
         [HttpGet("login/{email}/{password}")]
@@ -72,7 +77,7 @@ namespace KariyerAppApi.Controllers
         }
 
         [HttpPost]
-        public ActionResult RegisterUser([FromBody] EmployeeCreateDto employeeCreateDto)
+        public async Task<ActionResult> RegisterUser([FromBody] EmployeeCreateDto employeeCreateDto)
         {
             var foundEmployee = _employeeRepository.GetEmployeeByEmail(employeeCreateDto.Email);
 
@@ -86,6 +91,8 @@ namespace KariyerAppApi.Controllers
                 _employeeRepository.SaveChanges();
 
                 var employeeReadDto = _mapper.Map<EmployeeReadDto>(employeeModel);
+
+                await _emailManagement.SendEmailForRegistiration(employeeModel.Name, employeeModel.Email);
 
                 return Ok(employeeReadDto);
             }

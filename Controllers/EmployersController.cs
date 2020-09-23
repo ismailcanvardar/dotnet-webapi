@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
+using System.Threading.Tasks;
 using AutoMapper;
 using KariyerAppApi.Data;
 using KariyerAppApi.Helpers;
@@ -21,13 +22,15 @@ namespace KariyerAppApi.Controllers
         private readonly IMapper _mapper;
         private readonly IConfiguration _config;
         private readonly IAuthenticationHelper _authenticationHelper;
+        private readonly IEmailManagement _emailManagement;
 
-        public EmployersController(IEmployerRepo employerRepository, IMapper mapper, IConfiguration config, IAuthenticationHelper authenticationHelper)
+        public EmployersController(IEmployerRepo employerRepository, IMapper mapper, IConfiguration config, IAuthenticationHelper authenticationHelper, IEmailManagement emailManagement)
         {
             _employerRepository = employerRepository;
             _mapper = mapper;
             _config = config;
             _authenticationHelper = authenticationHelper;
+            _emailManagement = emailManagement;
         }
 
         [HttpGet("login/{email}/{password}")]
@@ -71,7 +74,7 @@ namespace KariyerAppApi.Controllers
         }
 
         [HttpPost]
-        public ActionResult RegisterEmployer([FromBody] EmployerCreateDto employerCreateDto)
+        public async Task<ActionResult> RegisterEmployer([FromBody] EmployerCreateDto employerCreateDto)
         {
             var foundEmployer = _employerRepository.GetEmployerByEmail(employerCreateDto.Email);
 
@@ -85,6 +88,8 @@ namespace KariyerAppApi.Controllers
                 _employerRepository.SaveChanges();
 
                 var employerReadDto = _mapper.Map<EmployerReadDto>(employerModel);
+
+                await _emailManagement.SendEmailForRegistiration(employerModel.Name, employerModel.Email);
 
                 return Ok(employerReadDto);
             }

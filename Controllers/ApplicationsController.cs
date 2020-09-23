@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using AutoMapper;
 using KariyerAppApi.Data;
 using KariyerAppApi.Dtos;
@@ -22,19 +23,29 @@ namespace KariyerAppApi.Controllers
         private readonly IMapper _mapper;
         private readonly IConfiguration _config;
         private readonly IAuthenticationHelper _authenticationHelper;
+        private readonly IEmailManagement _emailManagement;
+        private readonly IEmployerRepo _employerRepository;
 
-        public ApplicationsController(IApplicationRepo applicationRepository, IMapper mapper, IConfiguration config, IAdvertRepo advertRepository, IAuthenticationHelper authenticationHelper)
+        public ApplicationsController(
+            IApplicationRepo applicationRepository,
+            IMapper mapper, IConfiguration config,
+            IAdvertRepo advertRepository,
+            IAuthenticationHelper authenticationHelper,
+            IEmailManagement emailManagement,
+            IEmployerRepo employerRepository)
         {
             _advertRepository = advertRepository;
             _applicationRepository = applicationRepository;
             _mapper = mapper;
             _config = config;
             _authenticationHelper = authenticationHelper;
+            _emailManagement = emailManagement;
+            _employerRepository = employerRepository;
         }
 
         [Authorize]
         [HttpPost("apply/{advertId}")]
-        public ActionResult<Application> ApplyToAdvert(Guid advertId)
+        public async Task<ActionResult<Application>> ApplyToAdvert(Guid advertId)
         {
             if (_authenticationHelper.IsEmployee())
             {
@@ -50,6 +61,9 @@ namespace KariyerAppApi.Controllers
                     _applicationRepository.SaveChanges();
 
                     _applicationRepository.ManageApplicantCount(application.AdvertId, ApplicantCountOperation.Increment);
+
+                    var employer = _employerRepository.GetEmployer(appliedAdvert.EmployerId);
+                    await _emailManagement.SendEmailToEmployerAboutApplication(appliedAdvert.Title, employer.Email);
 
                     return Ok(application);
                 }
