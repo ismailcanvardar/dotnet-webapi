@@ -55,6 +55,14 @@ namespace KariyerAppApi
                 s.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
             });
 
+            /*services.AddCors(options =>
+                options.AddPolicy("MyPolicy",
+                    builder => {
+                        builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader();
+                    }
+                )
+            );*/
+
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
             services.AddHttpContextAccessor();
 
@@ -79,6 +87,8 @@ namespace KariyerAppApi
             app.UseHttpsRedirection();
 
             app.UseRouting();
+
+            app.UseCors("MyPolicy");
 
             app.UseAuthentication();
 

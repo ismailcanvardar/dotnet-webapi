@@ -65,3 +65,5 @@
 /Users/ismailcanvardar/Desktop/kariyer-app/KariyerAppApi/obj/Debug/netcoreapp3.1/KariyerAppApi.dll
 /Users/ismailcanvardar/Desktop/kariyer-app/KariyerAppApi/obj/Debug/netcoreapp3.1/KariyerAppApi.pdb
 /Users/ismailcanvardar/Desktop/kariyer-app/KariyerAppApi/obj/Debug/netcoreapp3.1/KariyerAppApi.genruntimeconfig.cache
+/Users/ismailcanvardar/Desktop/kariyer-app/KariyerAppApi/bin/Debug/netcoreapp3.1/SendGrid.dll
+/Users/ismailcanvardar/Desktop/kariyer-app/KariyerAppApi/bin/Debug/netcoreapp3.1/StarkbankEcdsa.dll

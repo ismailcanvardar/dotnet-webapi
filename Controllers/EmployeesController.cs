@@ -36,6 +36,15 @@ namespace KariyerAppApi.Controllers
             _emailManagement = emailManagement;
         }
 
+        [Authorize]
+        [HttpGet("getMyProfile")]
+        public ActionResult<Employee> GetMyProfile()
+        {
+            Guid employeeId = _authenticationHelper.GetCurrentUserId();
+
+            return _employeeRepository.GetEmployee(employeeId);
+        }
+
         [HttpGet("login/{email}/{password}")]
         public ActionResult<EmployeeLoginDto> LoginEmployee(string email, string password)
         {

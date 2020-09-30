@@ -8,6 +8,7 @@ using AutoMapper;
 using KariyerAppApi.Data;
 using KariyerAppApi.Helpers;
 using KariyerAppApi.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
@@ -31,6 +32,15 @@ namespace KariyerAppApi.Controllers
             _config = config;
             _authenticationHelper = authenticationHelper;
             _emailManagement = emailManagement;
+        }
+
+        [Authorize]
+        [HttpGet("getMyProfile")]
+        public ActionResult<Employer> GetMyProfile()
+        {
+            Guid employerId = _authenticationHelper.GetCurrentUserId();
+
+            return _employerRepository.GetEmployer(employerId);
         }
 
         [HttpGet("login/{email}/{password}")]
