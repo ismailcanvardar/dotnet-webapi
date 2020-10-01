@@ -6,6 +6,7 @@ namespace KariyerAppApi.Data
 {
     public interface IApplicationRepo
     {
+        bool IsApplied(Guid advertId, Guid employeeId);
         bool SaveChanges();
         bool ApplyToAdvert(Application application);
         Application CancelApplication(Guid applicationId, Guid employeeId);

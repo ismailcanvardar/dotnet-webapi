@@ -66,6 +66,18 @@ namespace KariyerAppApi.Data
             return (_context.SaveChanges() >= 0);
         }
 
+        public bool IsApplied(Guid advertId, Guid employeeId)
+        {
+            var application = _context.Applications.FirstOrDefault(app => app.AdvertId.Equals(advertId) && app.EmployeeId.Equals(employeeId));
+
+            if (application != null)
+            {
+                return true;
+            }
+
+            return false;
+        }
+
         public bool IsEmployeeApplied(Guid employeeId, Guid advertId)
         {
             // Check if user applied earlier

@@ -118,5 +118,12 @@ namespace KariyerAppApi.Controllers
 
             return Problem(title: "Unable to fetch.", detail: "Only employers can get applications for their adverts.");
         }
+
+        [Authorize]
+        [HttpGet("isApplied/{advertId}")]
+        public ActionResult<bool> IsApplied(Guid advertId)
+        {
+            return Ok(_applicationRepository.IsApplied(advertId, _authenticationHelper.GetCurrentUserId()));
+        }
     }
 }
