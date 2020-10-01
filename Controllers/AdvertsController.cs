@@ -67,10 +67,10 @@ namespace KariyerAppApi.Controllers
         }
 
         [Authorize]
-        [HttpGet("search")]
-        public ActionResult<IEnumerable<Advert>> SearchAdverts(AdvertSearchDto advertSearchDto)
+        [HttpGet("search/{province}/{district}/{neighborhood}")]
+        public ActionResult<IEnumerable<Advert>> SearchAdverts(string province, string district, string neighborhood)
         {
-            var adverts = _advertRepository.SearchAdverts(advertSearchDto);
+            var adverts = _advertRepository.SearchAdverts(new AdvertSearchDto { Province = province, District = district, Neighborhood = neighborhood });
 
             if (adverts.Count() == 0 || adverts == null)
             {

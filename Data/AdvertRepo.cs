@@ -49,10 +49,10 @@ namespace KariyerAppApi.Data
 
         public IEnumerable<Advert> SearchAdverts(AdvertSearchDto advertSearchDto)
         {
-            if (advertSearchDto.Province != "" && advertSearchDto.District != "" && advertSearchDto.Neighborhood != "")
+            if (advertSearchDto.Province != null && advertSearchDto.District != null && advertSearchDto.Neighborhood != null)
             {
                return _context.Adverts.Where(advert => advert.Province.Equals(advertSearchDto.Province) && advert.District.Equals(advertSearchDto.District) && advert.Neighborhood.Equals(advertSearchDto.Neighborhood)).ToList();
-            } else if (advertSearchDto.Province != "" && advertSearchDto.District != "")
+            } else if (advertSearchDto.Province != null && advertSearchDto.District != null)
             {
                 return _context.Adverts.Where(advert => advert.Province.Equals(advertSearchDto.Province) && advert.District.Equals(advertSearchDto.District)).ToList();
             } else
