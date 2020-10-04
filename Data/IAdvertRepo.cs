@@ -15,6 +15,6 @@ namespace KariyerAppApi.Data
         IQueryable SearchAdverts(AdvertSearchDto advertSearchDto);
         Advert GetAdvert(Guid advertId);
         IQueryable GetAdvertWithApplication(Guid advertId);
-        IEnumerable<Advert> GetMyAdverts(Guid employerId);
+        IQueryable GetMyAdverts(Guid employerId);
     }
 }

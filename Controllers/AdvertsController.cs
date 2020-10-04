@@ -129,7 +129,7 @@ namespace KariyerAppApi.Controllers
 
         [Authorize]
         [HttpGet("myAdverts")]
-        public ActionResult<IEnumerable<Advert>> GetMyAdverts()
+        public ActionResult<IQueryable> GetMyAdverts()
         {
             if (_authenticationHelper.IsEmployer())
             {

@@ -28,10 +28,9 @@ namespace KariyerAppApi.Data
             return foundAdvert;
         }
 
-        public IEnumerable<Advert> GetMyAdverts(Guid employerId)
+        public IQueryable GetMyAdverts(Guid employerId)
         {
-            var adverts = _context.Adverts.Where(ad => ad.EmployerId.Equals(employerId)).OrderByDescending(ad => ad.CreatedAt).ToList();
-            return adverts;
+            return from advert in _context.Adverts.Where(a => a.EmployerId.Equals(employerId)) join employer in _context.Employers on advert.EmployerId equals employer.EmployerId select new { advert, employer };
         }
 
         public bool RemoveAdvert(Guid advertId)
