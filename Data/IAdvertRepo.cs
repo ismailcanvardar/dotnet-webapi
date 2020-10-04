@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using KariyerAppApi.Dtos;
 using KariyerAppApi.Models;
 
@@ -11,8 +12,9 @@ namespace KariyerAppApi.Data
         bool CreateAdvert(Advert advert);
         bool RemoveAdvert(Guid advertId);
         void UpdateAdvert();
-        IEnumerable<Advert> SearchAdverts(AdvertSearchDto advertSearchDto);
+        IQueryable SearchAdverts(AdvertSearchDto advertSearchDto);
         Advert GetAdvert(Guid advertId);
+        IQueryable GetAdvertWithApplication(Guid advertId);
         IEnumerable<Advert> GetMyAdverts(Guid employerId);
     }
 }

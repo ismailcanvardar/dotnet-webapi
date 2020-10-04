@@ -47,17 +47,23 @@ namespace KariyerAppApi.Data
             return true;   
         }
 
-        public IEnumerable<Advert> SearchAdverts(AdvertSearchDto advertSearchDto)
+        public IQueryable SearchAdverts(AdvertSearchDto advertSearchDto)
         {
             if (advertSearchDto.Province != null && advertSearchDto.District != null && advertSearchDto.Neighborhood != null)
             {
-               return _context.Adverts.Where(advert => advert.Province.Equals(advertSearchDto.Province) && advert.District.Equals(advertSearchDto.District) && advert.Neighborhood.Equals(advertSearchDto.Neighborhood)).ToList();
-            } else if (advertSearchDto.Province != null && advertSearchDto.District != null)
+                return from advert in _context.Adverts.Where(a => (a.Title.Contains(advertSearchDto.SearchCriteria) || a.Description.Contains(advertSearchDto.SearchCriteria)) && a.Province.Equals(advertSearchDto.Province) && a.Province.Equals(advertSearchDto.Neighborhood)) join employer in _context.Employers on advert.EmployerId equals employer.EmployerId select new { advert, employer };
+            }
+            else if (advertSearchDto.Province != null && advertSearchDto.District != null)
             {
-                return _context.Adverts.Where(advert => advert.Province.Equals(advertSearchDto.Province) && advert.District.Equals(advertSearchDto.District)).ToList();
-            } else
+                return from advert in _context.Adverts.Where(a => (a.Title.Contains(advertSearchDto.SearchCriteria) || a.Description.Contains(advertSearchDto.SearchCriteria)) && a.Province.Equals(advertSearchDto.Province) && a.District.Equals(advertSearchDto.District)) join employer in _context.Employers on advert.EmployerId equals employer.EmployerId select new { advert, employer };
+            }
+            else if (advertSearchDto.Province != null)
             {
-                return _context.Adverts.Where(advert => advert.Province.Equals(advertSearchDto.Province)).ToList();
+                return from advert in _context.Adverts.Where(a => (a.Title.Contains(advertSearchDto.SearchCriteria) || a.Description.Contains(advertSearchDto.SearchCriteria)) && a.Province.Equals(advertSearchDto.Province)) join employer in _context.Employers on advert.EmployerId equals employer.EmployerId select new { advert, employer };
+            }
+            else
+            {
+                return from advert in _context.Adverts.Where(a => (a.Title.Contains(advertSearchDto.SearchCriteria) || a.Description.Contains(advertSearchDto.SearchCriteria))) join employer in _context.Employers on advert.EmployerId equals employer.EmployerId select new { advert, employer };
             }
         }
 
@@ -69,6 +75,12 @@ namespace KariyerAppApi.Data
         public bool SaveChanges()
         {
             return (_context.SaveChanges() >= 0);
+        }
+
+        public IQueryable GetAdvertWithApplication(Guid advertId)
+        {
+            var foundAdvert = from advert in _context.Adverts.Where(a => a.AdvertId.Equals(advertId)) join application in _context.Applications on advert.AdvertId equals application.AdvertId select new { advert, application };
+            return foundAdvert;
         }
     }
 }

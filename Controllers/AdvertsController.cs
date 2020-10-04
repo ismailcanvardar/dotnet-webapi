@@ -50,6 +50,25 @@ namespace KariyerAppApi.Controllers
         }
 
         [Authorize]
+        [HttpGet("withApps/{advertId}")]
+        public ActionResult<IQueryable> GetAdvertWithApplication(Guid advertId)
+        {
+            if (advertId == null)
+            {
+                return Problem(title: "Lack of information.", detail: "ExternalId is not provided.");
+            }
+
+            var advert = _advertRepository.GetAdvertWithApplication(advertId);
+
+            if (advert == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(advert);
+        }
+
+        [Authorize]
         [HttpPost]
         public ActionResult<AdvertReadDto> CreateAdvert(AdvertCreateDto advertCreateDto)
         {
@@ -67,14 +86,14 @@ namespace KariyerAppApi.Controllers
         }
 
         [Authorize]
-        [HttpGet("search/{province}/{district}/{neighborhood}")]
-        public ActionResult<IEnumerable<Advert>> SearchAdverts(string province, string district, string neighborhood)
+        [HttpPost("search")]
+        public ActionResult<IEnumerable<IQueryable>> SearchAdverts([FromBody] AdvertSearchDto advertSearchDto)
         {
-            var adverts = _advertRepository.SearchAdverts(new AdvertSearchDto { Province = province, District = district, Neighborhood = neighborhood });
+            var adverts = _advertRepository.SearchAdverts(advertSearchDto);
 
-            if (adverts.Count() == 0 || adverts == null)
+            if (adverts == null)
             {
-                NotFound();
+                return NotFound();
             }
 
             return Ok(adverts);
