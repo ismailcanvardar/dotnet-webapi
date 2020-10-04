@@ -21,5 +21,11 @@ namespace KariyerAppApi.Models
 
         [Required]
         public string Address { get; set; }
+
+        [Required]
+        public string Province { get; set; }
+
+        [Required]
+        public string District { get; set; }
     }
 }

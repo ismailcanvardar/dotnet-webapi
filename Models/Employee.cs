@@ -29,6 +29,12 @@ namespace KariyerAppApi.Models
         [Required]
         public string Address { get; set; }
 
+        [Required]
+        public string Province { get; set; }
+
+        [Required]
+        public string District { get; set; }
+
         [DefaultValue(null)]
         public string ProfilePhoto { get; set; }
 
@@ -37,6 +43,15 @@ namespace KariyerAppApi.Models
 
         [DefaultValue(0)]
         public float TotalRating { get; set; }
+
+        [Required]
+        public bool CampaignAllowance { get; set; }
+
+        [Required]
+        public bool KvkkAgreement { get; set; }
+
+        [Required]
+        public bool UserAgreement { get; set; }
 
         public DateTime CreatedAt { get; set; } = DateTime.Now;
     }
