@@ -27,5 +27,14 @@ namespace KariyerAppApi.Models
 
         [Required]
         public string District { get; set; }
+
+        [Required]
+        public bool CampaignAllowance { get; set; }
+
+        [Required]
+        public bool KvkkAgreement { get; set; }
+
+        [Required]
+        public bool UserAgreement { get; set; }
     }
 }
