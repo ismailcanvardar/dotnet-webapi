@@ -104,5 +104,10 @@ namespace KariyerAppApi.Data
         {
             return _context.Adverts.Where(a => a.EmployerId.Equals(employerId)).ToList();
         }
+
+        public IQueryable GetAdvertsOfDefinedEmployee(Guid employeeId)
+        {
+            return from application in _context.Applications.Where(a => a.EmployeeId.Equals(employeeId)) join advert in _context.Adverts on application.AdvertId equals advert.AdvertId select new { application, advert };
+        }
     }
 }
