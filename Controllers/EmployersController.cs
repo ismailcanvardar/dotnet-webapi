@@ -76,11 +76,11 @@ namespace KariyerAppApi.Controllers
         }
 
         [HttpGet("findEmployers/{searchCriteria}/{offset}/{limit}")]
-        public ActionResult<IEnumerable<EmployerReadDto>> SearchEmployers(string searchCriteria, int offset, int limit)
+        public ActionResult<IEnumerable<Employer>> SearchEmployers(string searchCriteria, int offset, int limit)
         {
             var employers = _employerRepository.SearchEmployers(searchCriteria, offset, limit);
 
-            return Ok(_mapper.Map<IEnumerable<EmployerReadDto>>(employers));
+            return Ok(employers);
         }
 
         [HttpPost]

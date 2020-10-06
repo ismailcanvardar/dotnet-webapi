@@ -78,11 +78,11 @@ namespace KariyerAppApi.Controllers
         }
 
         [HttpGet("findUsers/{searchCriteria}/{offset}/{limit}")]
-        public ActionResult<IEnumerable<EmployeeReadDto>> SearchUser(string searchCriteria, int offset, int limit)
+        public ActionResult<IEnumerable<Employee>> SearchUser(string searchCriteria, int offset, int limit)
         {
             var employees = _employeeRepository.SearchEmployees(searchCriteria, offset, limit);
 
-            return Ok(_mapper.Map<IEnumerable<EmployeeReadDto>>(employees));
+            return Ok(employees);
         }
 
         [HttpPost]
