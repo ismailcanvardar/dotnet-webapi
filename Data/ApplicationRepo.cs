@@ -49,10 +49,12 @@ namespace KariyerAppApi.Data
             SaveChanges();
         }
 
-        public IEnumerable<Application> GetApplicationsByAdvert(Guid advertId)
+        public IQueryable GetApplicationsByAdvert(Guid advertId)
         {
-            var applications = _context.Applications.Where(app => app.AdvertId == advertId).ToList();
-            return applications;
+            //var applications = _context.Applications.Where(app => app.AdvertId == advertId).ToList();
+            //return applications;
+
+            return from application in _context.Applications.Where(a => a.AdvertId.Equals(advertId)) join employee in _context.Employees on application.EmployeeId equals employee.EmployeeId select new { application, employee };
         }
 
         public IEnumerable<Application> GetMyApplications(Guid employeeId)

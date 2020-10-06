@@ -10,7 +10,7 @@ namespace KariyerAppApi.Data
         bool SaveChanges();
         bool ApplyToAdvert(Application application);
         Application CancelApplication(Guid applicationId, Guid employeeId);
-        IEnumerable<Application> GetApplicationsByAdvert(Guid advertId);
+        IQueryable GetApplicationsByAdvert(Guid advertId);
         bool IsEmployeeApplied(Guid employeeId, Guid advertId);
         void ManageApplicantCount(Guid advertId, ApplicantCountOperation applicantCountOperation);
         IEnumerable<Application> GetMyApplications(Guid employeeId);

@@ -122,7 +122,7 @@ namespace KariyerAppApi.Controllers
 
         [Authorize]
         [HttpGet("getApplicationsByAdvert/{advertId}")]
-        public ActionResult<IEnumerable<Application>> GetApplicationsByAdvert(Guid advertId)
+        public ActionResult<IQueryable> GetApplicationsByAdvert(Guid advertId)
         {
             if (_authenticationHelper.IsEmployer())
             {
