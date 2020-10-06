@@ -67,7 +67,7 @@ namespace KariyerAppApi.Controllers
         [HttpGet("getAdvertsOfDefinedEmployee/{employeeId}")]
         public ActionResult<IEnumerable<Advert>> GetAdvertsOfDefinedEmployee(Guid employeeId)
         {
-            var adverts = _advertRepository.GetAdvertsOfDefinedEmployer(employeeId);
+            var adverts = _advertRepository.GetAdvertsOfDefinedEmployee(employeeId);
 
             if (adverts != null)
             {
