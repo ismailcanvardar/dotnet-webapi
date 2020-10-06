@@ -48,14 +48,32 @@ namespace KariyerAppApi.Data
 
         public IQueryable SearchAdverts(AdvertSearchDto advertSearchDto)
         {
-            if (advertSearchDto.Province != null && advertSearchDto.District != null && advertSearchDto.Neighborhood != null)
+            // If searchcriteria is null and province exists
+            if (advertSearchDto.SearchCriteria == null && advertSearchDto.Province != null)
+            {
+                return from advert in _context.Adverts.Where(a => a.Province.Equals(advertSearchDto.Province)) join employer in _context.Employers on advert.EmployerId equals employer.EmployerId select new { advert, employer };
+            }
+            // If searchcriteria is null and province and district exists
+            else if (advertSearchDto.SearchCriteria == null && advertSearchDto.Province != null && advertSearchDto.District != null)
+            {
+                return from advert in _context.Adverts.Where(a => a.Province.Equals(advertSearchDto.Province) && a.District.Equals(advertSearchDto.District)) join employer in _context.Employers on advert.EmployerId equals employer.EmployerId select new { advert, employer };
+            }
+            // If searchcriteria is null and province, district and neighborhood exists
+            else if (advertSearchDto.SearchCriteria == null && advertSearchDto.Province != null && advertSearchDto.District != null && advertSearchDto.Neighborhood != null)
+            {
+                return from advert in _context.Adverts.Where(a => a.Province.Equals(advertSearchDto.Province) && a.District.Equals(advertSearchDto.District) && a.Neighborhood.Equals(advertSearchDto.Neighborhood)) join employer in _context.Employers on advert.EmployerId equals employer.EmployerId select new { advert, employer };
+            }
+            // If searchcriteria exists and province, district and neighborhood exists
+            else if (advertSearchDto.Province != null && advertSearchDto.District != null && advertSearchDto.Neighborhood != null)
             {
                 return from advert in _context.Adverts.Where(a => (a.Title.Contains(advertSearchDto.SearchCriteria) || a.Description.Contains(advertSearchDto.SearchCriteria)) && a.Province.Equals(advertSearchDto.Province) && a.Province.Equals(advertSearchDto.Neighborhood)) join employer in _context.Employers on advert.EmployerId equals employer.EmployerId select new { advert, employer };
             }
+            // If searchcriteria exists and province and district exists
             else if (advertSearchDto.Province != null && advertSearchDto.District != null)
             {
                 return from advert in _context.Adverts.Where(a => (a.Title.Contains(advertSearchDto.SearchCriteria) || a.Description.Contains(advertSearchDto.SearchCriteria)) && a.Province.Equals(advertSearchDto.Province) && a.District.Equals(advertSearchDto.District)) join employer in _context.Employers on advert.EmployerId equals employer.EmployerId select new { advert, employer };
             }
+            // If searchcriteria exists and province exists
             else if (advertSearchDto.Province != null)
             {
                 return from advert in _context.Adverts.Where(a => (a.Title.Contains(advertSearchDto.SearchCriteria) || a.Description.Contains(advertSearchDto.SearchCriteria)) && a.Province.Equals(advertSearchDto.Province)) join employer in _context.Employers on advert.EmployerId equals employer.EmployerId select new { advert, employer };
