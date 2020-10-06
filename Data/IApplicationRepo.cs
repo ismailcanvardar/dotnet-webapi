@@ -14,6 +14,7 @@ namespace KariyerAppApi.Data
         bool IsEmployeeApplied(Guid employeeId, Guid advertId);
         void ManageApplicantCount(Guid advertId, ApplicantCountOperation applicantCountOperation);
         IEnumerable<Application> GetMyApplications(Guid employeeId);
+        IEnumerable<Application> GetApplicationsOfDefinedEmployee(Guid employeeId);
     }
 
     public enum ApplicantCountOperation

@@ -89,5 +89,10 @@ namespace KariyerAppApi.Data
 
             return false;
         }
+
+        public IEnumerable<Application> GetApplicationsOfDefinedEmployee(Guid employeeId)
+        {
+            return _context.Applications.Where(a => a.EmployeeId.Equals(employeeId)).ToList();
+        }
     }
 }

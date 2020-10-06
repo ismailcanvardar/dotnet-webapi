@@ -99,5 +99,10 @@ namespace KariyerAppApi.Data
             var foundAdvert = from advert in _context.Adverts.Where(a => a.AdvertId.Equals(advertId)) join application in _context.Applications on advert.AdvertId equals application.AdvertId select new { advert, application };
             return foundAdvert;
         }
+
+        public IEnumerable<Advert> GetAdvertsOfDefinedEmployer(Guid employerId)
+        {
+            return _context.Adverts.Where(a => a.EmployerId.Equals(employerId)).ToList();
+        }
     }
 }

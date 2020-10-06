@@ -50,6 +50,20 @@ namespace KariyerAppApi.Controllers
         }
 
         [Authorize]
+        [HttpGet("getAdvertsOfDefinedEmployer/{employerId}")]
+        public ActionResult<IEnumerable<Advert>> GetAdvertsOfDefinedEmployer(Guid employerId)
+        {
+            var adverts = _advertRepository.GetAdvertsOfDefinedEmployer(employerId);
+
+            if (adverts != null)
+            {
+                return Ok(adverts);
+            }
+
+            return NotFound();
+        }
+
+        [Authorize]
         [HttpGet("withApps/{advertId}")]
         public ActionResult<IQueryable> GetAdvertWithApplication(Guid advertId)
         {

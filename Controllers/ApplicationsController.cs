@@ -73,6 +73,20 @@ namespace KariyerAppApi.Controllers
         }
 
         [Authorize]
+        [HttpGet("getApplicationsOfDefinedEmployer/{employeeId}")]
+        public ActionResult<IEnumerable<Advert>> GetApplicationsOfDefinedEmployer(Guid employeeId)
+        {
+            var applications = _applicationRepository.GetApplicationsOfDefinedEmployee(employeeId);
+
+            if (applications != null)
+            {
+                return Ok(applications);
+            }
+
+            return NotFound();
+        }
+
+        [Authorize]
         [HttpDelete("apply/{applicationId}")]
         public ActionResult CancelApplication(Guid applicationId)
         {
