@@ -88,23 +88,18 @@ namespace KariyerAppApi.Controllers
 
         [Authorize]
         [HttpDelete("apply/{applicationId}")]
-        public ActionResult CancelApplication(Guid applicationId)
+        public ActionResult<bool> CancelApplication(Guid applicationId)
         {
-            if (_authenticationHelper.IsEmployee())
+            var canceledApplication = _applicationRepository.CancelApplication(applicationId);
+            if (canceledApplication != null)
             {
-                var canceledApplication = _applicationRepository.CancelApplication(applicationId, _authenticationHelper.GetCurrentUserId());
-                if (canceledApplication != null)
-                {
-                    _applicationRepository.SaveChanges();
-                    _applicationRepository.ManageApplicantCount(canceledApplication.AdvertId, ApplicantCountOperation.Decrement);
+                _applicationRepository.SaveChanges();
+                _applicationRepository.ManageApplicantCount(canceledApplication.AdvertId, ApplicantCountOperation.Decrement);
 
-                    return Ok();
-                }
-
-                return Problem("Application is missed or not found.");
+                return Ok(true);
             }
 
-            return Problem(title: "Unable to apply.", detail: "Only employees can cancel.");
+            return Problem("Application is missed or not found.");
         }
 
         [Authorize]

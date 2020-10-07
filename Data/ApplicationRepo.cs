@@ -20,9 +20,9 @@ namespace KariyerAppApi.Data
             return true;
         }
 
-        public Application CancelApplication(Guid applicationId, Guid employeeId)
+        public Application CancelApplication(Guid applicationId)
         {
-            var application = _context.Applications.FirstOrDefault(a => a.ApplicationId == applicationId && a.EmployeeId == employeeId);
+            var application = _context.Applications.FirstOrDefault(a => a.ApplicationId == applicationId);
 
             if (application == null)
             {
