@@ -1,9 +1,12 @@
+using System;
 using System.ComponentModel.DataAnnotations;
 
 namespace KariyerAppApi.Models
 {
     public class EmployeeLoginDto
     {
+        public Guid EmployeeId { get; set; }
+
         public string Name { get; set; }
 
         public string Surname { get; set; }
