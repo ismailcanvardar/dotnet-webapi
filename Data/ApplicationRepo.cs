@@ -57,10 +57,9 @@ namespace KariyerAppApi.Data
             return from application in _context.Applications.Where(a => a.AdvertId.Equals(advertId)) join employee in _context.Employees on application.EmployeeId equals employee.EmployeeId select new { application, employee };
         }
 
-        public IEnumerable<Application> GetMyApplications(Guid employeeId)
+        public IQueryable GetMyApplications(Guid employeeId)
         {
-            var applications = _context.Applications.Where(app => app.EmployeeId.Equals(employeeId)).OrderByDescending(app => app.CreatedAt).ToList();
-            return applications;
+            return from application in _context.Applications.Where(app => app.EmployeeId.Equals(employeeId)).OrderByDescending(app => app.CreatedAt) join advert in _context.Adverts on application.AdvertId equals advert.AdvertId select new { application, advert };
         }
 
         public bool SaveChanges()

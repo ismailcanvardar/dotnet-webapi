@@ -109,7 +109,7 @@ namespace KariyerAppApi.Controllers
 
         [Authorize]
         [HttpGet("myApplications")]
-        public ActionResult<IEnumerable<Application>> GetMyApplications()
+        public ActionResult<IQueryable> GetMyApplications()
         {
             if (_authenticationHelper.IsEmployee())
             {

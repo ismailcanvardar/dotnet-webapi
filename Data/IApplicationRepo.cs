@@ -14,7 +14,7 @@ namespace KariyerAppApi.Data
         IQueryable GetApplicationsByAdvert(Guid advertId);
         bool IsEmployeeApplied(Guid employeeId, Guid advertId);
         void ManageApplicantCount(Guid advertId, ApplicantCountOperation applicantCountOperation);
-        IEnumerable<Application> GetMyApplications(Guid employeeId);
+        IQueryable GetMyApplications(Guid employeeId);
         IEnumerable<Application> GetApplicationsOfDefinedEmployee(Guid employeeId);
     }
 
