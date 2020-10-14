@@ -1,27 +1,26 @@
 ﻿<Properties GitUserInfo="UsingGIT" StartupConfiguration="{1F6689A1-9C5F-4044-8B85-B79CAF5B6DF2}|Commander">
-  <MonoDevelop.Ide.Workbench ActiveDocument="Controllers/ApplicationsController.cs">
+  <MonoDevelop.Ide.Workbench>
     <Files>
       <File FileName="Controllers/PickedEmployeesController.cs" Line="1" Column="1" />
-      <File FileName="Data/IPickedEmployeeRepo.cs" Line="1" Column="1" />
-      <File FileName="Data/PickedEmployeeRepo.cs" Line="1" Column="1" />
-      <File FileName="Data/IApplicationRepo.cs" Line="13" Column="59" />
-      <File FileName="Data/ApplicationRepo.cs" Line="24" Column="10" />
-      <File FileName="Controllers/ApplicationsController.cs" Line="95" Column="100" />
+      <File FileName="Data/IPickedEmployeeRepo.cs" />
+      <File FileName="Data/PickedEmployeeRepo.cs" />
+      <File FileName="Dtos/PickedEmployeeCreateDto.cs" />
+      <File FileName="Models/Employee.cs" Line="55" Column="1" />
+      <File FileName="appsettings.json" Line="17" Column="94" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
         <State name="__root__">
           <Node name="KariyerAppApi" expanded="True">
             <Node name="KariyerAppApi" expanded="True">
-              <Node name="Controllers" expanded="True">
-                <Node name="ApplicationsController.cs" selected="True" />
-              </Node>
+              <Node name="Controllers" expanded="True" />
               <Node name="Data" expanded="True" />
               <Node name="Dtos" expanded="True" />
               <Node name="Helpers" expanded="True" />
               <Node name="Migrations" expanded="True" />
               <Node name="Models" expanded="True" />
               <Node name="Profiles" expanded="True" />
+              <Node name="appsettings.json" selected="True" />
             </Node>
           </Node>
         </State>
