@@ -10,6 +10,8 @@ namespace KariyerAppApi.Data
 
         }
 
+        public DbSet<AboutEmployee> AboutEmployees { get; set; }
+
         public DbSet<Command> Commands { get; set; }
 
         public DbSet<Employee> Employees { get; set; }

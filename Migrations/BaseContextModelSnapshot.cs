@@ -19,6 +19,31 @@ namespace KariyerAppApi.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+            modelBuilder.Entity("KariyerAppApi.Models.AboutEmployee", b =>
+                {
+                    b.Property<Guid>("AboutEmployeeId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("BriefInformation")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<Guid>("EmployeeId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Job")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("AboutEmployeeId");
+
+                    b.ToTable("AboutEmployees");
+                });
+
             modelBuilder.Entity("KariyerAppApi.Models.Advert", b =>
                 {
                     b.Property<Guid>("AdvertId")

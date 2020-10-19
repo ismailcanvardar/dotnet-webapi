@@ -1,18 +1,13 @@
 ﻿<Properties GitUserInfo="UsingGIT" StartupConfiguration="{1F6689A1-9C5F-4044-8B85-B79CAF5B6DF2}|Commander">
   <MonoDevelop.Ide.Workbench>
     <Files>
-      <File FileName="Controllers/PickedEmployeesController.cs" Line="1" Column="1" />
-      <File FileName="Data/IPickedEmployeeRepo.cs" />
-      <File FileName="Data/PickedEmployeeRepo.cs" />
-      <File FileName="Dtos/PickedEmployeeCreateDto.cs" />
-      <File FileName="Models/Employee.cs" Line="55" Column="1" />
-      <File FileName="appsettings.json" Line="17" Column="94" />
+      <File FileName="Models/AboutEmployee.cs" Line="23" Column="64" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
         <State name="__root__">
           <Node name="KariyerAppApi" expanded="True">
-            <Node name="KariyerAppApi" expanded="True">
+            <Node name="KariyerAppApi" expanded="True" selected="True">
               <Node name="Controllers" expanded="True" />
               <Node name="Data" expanded="True" />
               <Node name="Dtos" expanded="True" />
@@ -20,7 +15,6 @@
               <Node name="Migrations" expanded="True" />
               <Node name="Models" expanded="True" />
               <Node name="Profiles" expanded="True" />
-              <Node name="appsettings.json" selected="True" />
             </Node>
           </Node>
         </State>
