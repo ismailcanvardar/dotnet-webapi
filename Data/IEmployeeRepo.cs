@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using KariyerAppApi.Dtos;
 using KariyerAppApi.Models;
 
 namespace KariyerAppApi.Data
@@ -12,6 +13,6 @@ namespace KariyerAppApi.Data
         IQueryable GetEmployee(Guid employeeId);
         Employee RegisterEmployee(Employee user);
         Employee GetEmployeeByEmail(string email);
-        void EmployeeUpdate(Employee employee);
+        bool EmployeeUpdate(EmployeeUpdateDto employeeUpdateDto);
     }
 }

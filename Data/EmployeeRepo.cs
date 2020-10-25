@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using KariyerAppApi.Dtos;
 using KariyerAppApi.Models;
 using Microsoft.EntityFrameworkCore;
 
@@ -48,9 +49,31 @@ namespace KariyerAppApi.Data
             return _context.Employees.Where(emp => emp.Name.Contains(searchCriteria) || emp.Surname.Contains(searchCriteria)).Take(limit).Skip(offset).ToList();
         }
 
-        public void EmployeeUpdate(Employee employee)
+        public bool EmployeeUpdate(EmployeeUpdateDto employeeUpdateDto)
         {
-            throw new NotImplementedException();
+            var foundEmployee = _context.Employees.FirstOrDefault(e => e.EmployeeId.Equals(employeeUpdateDto.EmployeeId));
+
+            if (foundEmployee != null)
+            {
+                if (employeeUpdateDto.Phone != null && employeeUpdateDto.Address != null)
+                {
+                    foundEmployee.Phone = employeeUpdateDto.Phone;
+                    foundEmployee.Address = employeeUpdateDto.Address;
+                } else if (employeeUpdateDto.Phone != null)
+                {
+                    foundEmployee.Phone = employeeUpdateDto.Phone;
+                } else if (employeeUpdateDto.Address != null)
+                {
+                    foundEmployee.Address = employeeUpdateDto.Address;
+                }
+
+                SaveChanges();
+                 
+                return true;
+            } else
+            {
+                return false;
+            }
         }
     }
 }

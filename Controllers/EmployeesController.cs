@@ -120,6 +120,19 @@ namespace KariyerAppApi.Controllers
 
             return Problem(title: "Unable to register.", detail: "Email already in use.");
         }
+
+        [HttpPost("update")]
+        public ActionResult UpdateEmployee([FromBody] EmployeeUpdateDto employeeUpdateDto)
+        {
+            bool result = _employeeRepository.EmployeeUpdate(employeeUpdateDto);
+
+            if (result)
+            {
+                return Ok();
+            }
+
+            return Problem();
+        }
     }
 
 }
