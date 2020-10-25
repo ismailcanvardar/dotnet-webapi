@@ -9,7 +9,7 @@ namespace KariyerAppApi.Data
         bool SaveChanges();
         IEnumerable<Employee> SearchEmployees(string searchCriteria, int offset, int limit);
         Employee GetEmployee(Guid employeeId);
-        void RegisterEmployee(Employee user);
+        Employee RegisterEmployee(Employee user);
         Employee GetEmployeeByEmail(string email);
         void EmployeeUpdate(Employee employee);
     }

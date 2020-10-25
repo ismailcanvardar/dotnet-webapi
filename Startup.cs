@@ -74,6 +74,7 @@ namespace KariyerAppApi
             services.AddScoped<IRatingRepo, RatingRepo>();
             services.AddScoped<IAuthenticationHelper, AuthenticationHelper>();
             services.AddScoped<IEmailManagement, EmailManagement>();
+            services.AddScoped<IAboutEmployeeRepo, AboutEmployeeRepo>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

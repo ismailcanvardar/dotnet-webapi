@@ -14,6 +14,8 @@ using KariyerAppApi.Helpers;
 using System.Threading.Tasks;
 using SendGrid;
 using SendGrid.Helpers.Mail;
+using KariyerAppApi.Dtos;
+using Microsoft.EntityFrameworkCore;
 
 namespace KariyerAppApi.Controllers
 {
@@ -26,14 +28,18 @@ namespace KariyerAppApi.Controllers
         private readonly IConfiguration _config;
         private readonly IAuthenticationHelper _authenticationHelper;
         private readonly IEmailManagement _emailManagement;
+        private readonly IAboutEmployeeRepo _aboutEmployeeRepository;
+        private readonly BaseContext _context;
 
-        public EmployeesController(IEmployeeRepo employeeRepository, IMapper mapper, IConfiguration config, IAuthenticationHelper authenticationHelper, IEmailManagement emailManagement)
+        public EmployeesController(IEmployeeRepo employeeRepository, IMapper mapper, IConfiguration config, IAuthenticationHelper authenticationHelper, IEmailManagement emailManagement, IAboutEmployeeRepo aboutEmployeeRepository, BaseContext context)
         {
             _employeeRepository = employeeRepository;
             _mapper = mapper;
             _config = config;
             _authenticationHelper = authenticationHelper;
             _emailManagement = emailManagement;
+            _aboutEmployeeRepository = aboutEmployeeRepository;
+            _context = context;
         }
 
         [Authorize]
@@ -96,8 +102,13 @@ namespace KariyerAppApi.Controllers
 
                 employeeModel.Password = BCrypt.Net.BCrypt.HashPassword(employeeModel.Password);
 
-                _employeeRepository.RegisterEmployee(employeeModel);
+                var registeredEmployee = _employeeRepository.RegisterEmployee(employeeModel);
                 _employeeRepository.SaveChanges();
+
+                AboutEmployeeCreateDto aboutEmployeeCreateDto = new AboutEmployeeCreateDto() { EmployeeId = registeredEmployee.EmployeeId };
+                var aboutEmployeeModel = _mapper.Map<AboutEmployee>(aboutEmployeeCreateDto);
+                _aboutEmployeeRepository.CreateAboutEmployee(aboutEmployeeModel);
+                _aboutEmployeeRepository.SaveChanges();
 
                 var employeeReadDto = _mapper.Map<EmployeeReadDto>(employeeModel);
 

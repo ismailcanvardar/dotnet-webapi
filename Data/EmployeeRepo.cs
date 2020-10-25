@@ -32,9 +32,10 @@ namespace KariyerAppApi.Data
             return null;
         }
 
-        public void RegisterEmployee(Employee employee)
+        public Employee RegisterEmployee(Employee employee)
         {
-             _context.Employees.Add(employee);
+            _context.Employees.Add(employee);
+            return employee;
         }
 
         public bool SaveChanges()

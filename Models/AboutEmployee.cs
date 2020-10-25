@@ -14,10 +14,10 @@ namespace KariyerAppApi.Models
         [Required]
         public Guid EmployeeId { get; set; }
 
-        [Required]
+        [DefaultValue("")]
         public string Job { get; set; }
 
-        [Required]
+        [DefaultValue("")]
         public string BriefInformation { get; set; } 
 
         public DateTime CreatedAt { get; set; } = DateTime.Now;
