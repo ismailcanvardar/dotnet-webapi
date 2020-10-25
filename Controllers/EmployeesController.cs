@@ -16,6 +16,7 @@ using SendGrid;
 using SendGrid.Helpers.Mail;
 using KariyerAppApi.Dtos;
 using Microsoft.EntityFrameworkCore;
+using System.Linq;
 
 namespace KariyerAppApi.Controllers
 {
@@ -44,11 +45,11 @@ namespace KariyerAppApi.Controllers
 
         [Authorize]
         [HttpGet("getMyProfile")]
-        public ActionResult<Employee> GetMyProfile()
+        public ActionResult<IQueryable<Employee>> GetMyProfile()
         {
             Guid employeeId = _authenticationHelper.GetCurrentUserId();
 
-            return _employeeRepository.GetEmployee(employeeId);
+            return Ok(_employeeRepository.GetEmployee(employeeId));
         }
 
         [HttpGet("login/{email}/{password}")]

@@ -2,18 +2,23 @@
   <MonoDevelop.Ide.Workbench>
     <Files>
       <File FileName="Controllers/AboutEmployeeController.cs" Line="44" Column="19" />
-      <File FileName="Data/AboutEmployeeRepo.cs" Line="25" Column="10" />
+      <File FileName="Data/AboutEmployeeRepo.cs" Line="28" Column="10" />
       <File FileName="Dtos/AboutEmployeeUpdateDto.cs" Line="1" Column="1" />
+      <File FileName="Data/AdvertRepo.cs" Line="41" Column="14" />
+      <File FileName="Data/EmployeeRepo.cs" Line="11" Column="47" />
+      <File FileName="Data/IEmployeeRepo.cs" Line="8" Column="35" />
+      <File FileName="Controllers/EmployersController.cs" Line="1" Column="1" />
+      <File FileName="Controllers/EmployeesController.cs" Line="55" Column="46" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
         <State name="__root__">
           <Node name="KariyerAppApi" expanded="True">
             <Node name="KariyerAppApi" expanded="True">
-              <Node name="Controllers" expanded="True">
-                <Node name="AboutEmployeeController.cs" selected="True" />
+              <Node name="Controllers" expanded="True" />
+              <Node name="Data" expanded="True">
+                <Node name="EmployeeRepo.cs" selected="True" />
               </Node>
-              <Node name="Data" expanded="True" />
               <Node name="Dtos" expanded="True" />
               <Node name="Helpers" expanded="True" />
               <Node name="Migrations" expanded="True" />

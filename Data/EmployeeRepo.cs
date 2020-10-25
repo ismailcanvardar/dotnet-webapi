@@ -15,9 +15,9 @@ namespace KariyerAppApi.Data
             _context = context;
         }
 
-        public Employee GetEmployee(Guid employeeId)
+        public IQueryable GetEmployee(Guid employeeId)
         {
-            return _context.Employees.FirstOrDefault(p => p.EmployeeId == employeeId);
+            return from employee in _context.Employees.Where(e => e.EmployeeId.Equals(employeeId)) join aboutEmployee in _context.AboutEmployees on employee.EmployeeId equals aboutEmployee.EmployeeId select new { employee, aboutEmployee };
         }
 
         public Employee GetEmployeeByEmail(string email)
